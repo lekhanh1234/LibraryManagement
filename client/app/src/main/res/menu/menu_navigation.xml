@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+       <item android:id="@+id/itemNV_quanliphieumuon"
+           android:icon="@drawable/vector_home"
+           android:title="Quản lí Phiếu mượn"/>
+       <item android:id="@+id/itemNV_quanlisach"
+           android:icon="@drawable/vector_book"
+           android:title="Quản lí sách"/>
+
+    <item android:id="@+id/itemNV_quanliloaisach"
+        android:title="Quản lí loại sách"
+        android:icon="@drawable/vector_loaisach"
+        ></item>
+    <item android:id="@+id/itemNV_quanlithanhvien"
+        android:title="Quản lí thành viên"
+        android:icon="@drawable/vector_member">
+    </item>
+    <group>
+        <item android:id="@+id/itemNV_thongke"
+            android:title="Thống kê"
+            android:icon="@drawable/vector_thongke">
+            <menu>
+       <item android:id="@+id/itemNV_top10sachmuon"
+           android:title="10 sách mượn nhiều nhất"
+           android:icon="@drawable/topsachmuon"
+           />
+       <item android:id="@+id/itemNV_doanhso"
+           android:title="Doanh số"
+           android:icon="@drawable/vector_doanhso"></item>
+                <item android:id="@+id/itemNV_doimatkhau"
+                    android:title="Đổi mật khẩu"
+                    android:icon="@drawable/doimatkhau"></item>
+   </menu>
+        </item>
+    </group>
+</menu>
