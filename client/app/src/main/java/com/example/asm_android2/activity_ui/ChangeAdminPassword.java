@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Admin;
-import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.ServerService.PrepareMethod;
 
@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-public class changePassWordThuThu extends AppCompatActivity {
+public class ChangeAdminPassword extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,38 +32,38 @@ public class changePassWordThuThu extends AppCompatActivity {
         BTN_confirmChangeAddThuThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder a=new AlertDialog.Builder(changePassWordThuThu.this);
+                AlertDialog.Builder a=new AlertDialog.Builder(ChangeAdminPassword.this);
                 a.setTitle("Thay đổi mật khẩu");
                 a.setMessage("Bạn muốn thay đổi mật khẩu thủ thư");
                 a.setCancelable(true);
                 a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(NetworkUtils.isNetworkAvailable(changePassWordThuThu.this)==false){
-                            Toast.makeText(changePassWordThuThu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                        if(NetworkUtils.isNetworkAvailable(ChangeAdminPassword.this)==false){
+                            Toast.makeText(ChangeAdminPassword.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         String dinhdanhThuthu=EDT_dinhdanhThuthu.getText().toString().trim();
                         String newPassWord=EDT_newPassWord.getText().toString().trim();
                         String newPassWord2=EDT_newPassWord2.getText().toString().trim();
                         if(dinhdanhThuthu.length()==0||newPassWord.length()==0||newPassWord2.length()==0){
-                            Toast.makeText(changePassWordThuThu.this,"Thông tin trống !",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeAdminPassword.this,"Thông tin trống !",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         List<AccountThuthu> list= Admin.getListAccountThuThu();
                        for(int i=0;i<list.size();i++){
                            if(dinhdanhThuthu.equals(list.get(i).getMadinhdanh())) break;
                            if(i==list.size()-1){
-                               Toast.makeText(changePassWordThuThu.this,"Định danh thủ thư không tồn tại !",Toast.LENGTH_SHORT).show();
+                               Toast.makeText(ChangeAdminPassword.this,"Định danh thủ thư không tồn tại !",Toast.LENGTH_SHORT).show();
                                return;
                            }
                        }
                         if(newPassWord.equals(newPassWord2)==false){
-                            Toast.makeText(changePassWordThuThu.this,"Mật khẩu không khớp !",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeAdminPassword.this,"Mật khẩu không khớp !",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         if(newPassWord.length()<5){
-                            Toast.makeText(changePassWordThuThu.this,"Mật khẩu phải ít nhất 5 kí tự !",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeAdminPassword.this,"Mật khẩu phải ít nhất 5 kí tự !",Toast.LENGTH_SHORT).show();
                             return;
                         }
                         HttpURLConnection connection= PrepareMethod.createPostConnection("http://192.168.43.189:8080/sever_messenger/changePassWordAccountThuThu");

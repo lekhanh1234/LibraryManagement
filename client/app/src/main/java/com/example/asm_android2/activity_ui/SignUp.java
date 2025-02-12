@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Sign_up extends AppCompatActivity {
+import com.example.asm_android2.R;
+
+public class SignUp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,9 +41,9 @@ public class Sign_up extends AppCompatActivity {
                 String dinhdanh=edt_dinhdanh.getText().toString();
                 if(nameUser.length()==0||passWord.length()==0)
                 {
-                    Toast.makeText(Sign_up.this,"Error!\nTrường dữ liệu trống",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this,"Error!\nTrường dữ liệu trống",Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(Sign_up.this,"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
+                else Toast.makeText(SignUp.this,"Tài khoản đã tồn tại",Toast.LENGTH_LONG).show();
             }
         });
 

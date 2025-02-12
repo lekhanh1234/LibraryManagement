@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -10,15 +10,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageButton;
-import android.widget.ListView;
 
+import com.example.asm_android2.R;
+import com.example.asm_android2.fg_ui.fgBookCategoryManager;
+import com.example.asm_android2.fg_ui.fgBookManager;
+import com.example.asm_android2.fg_ui.fgChangePassword;
+import com.example.asm_android2.fg_ui.fgLoanSlipManager;
+import com.example.asm_android2.fg_ui.fgMemberManager;
+import com.example.asm_android2.fg_ui.fgStatistical;
+import com.example.asm_android2.fg_ui.fgTopBook;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class from_main extends AppCompatActivity {
+public class Home extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private static int fragmene=1;
 
@@ -27,7 +30,7 @@ public class from_main extends AppCompatActivity {
     }
 
     public static void setFragmene(int fragmene) {
-        from_main.fragmene = fragmene;
+        Home.fragmene = fragmene;
     }
 
     @Override
@@ -51,37 +54,37 @@ public class from_main extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId()==R.id.itemNV_quanlisach){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgQuanlisach()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgBookManager()).commit();
                     getSupportActionBar().setTitle("Quản lí sách");
                     setFragmene(1);
                 }
                 if(item.getItemId()==R.id.itemNV_quanlithanhvien){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgQuanlithanhvien()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgMemberManager()).commit();
                     getSupportActionBar().setTitle("Quản lí thành viên");
                     setFragmene(2);
                 }
                 if(item.getItemId()==R.id.itemNV_quanliloaisach){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgQuanliloaisach()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgBookCategoryManager()).commit();
                     getSupportActionBar().setTitle("Quản lí loại sách");
                     setFragmene(3);
                 }
                 if(item.getItemId()==R.id.itemNV_quanliphieumuon){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgQuanliphieumuon()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgLoanSlipManager()).commit();
                     getSupportActionBar().setTitle("Quản lí phiếu mượn");
                     setFragmene(4);
                 }
                 if(item.getItemId()==R.id.itemNV_top10sachmuon){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new top10sachchomuon()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgTopBook()).commit();
                     getSupportActionBar().setTitle("10 sách mượn nhiều nhất");
                     setFragmene(5);
                 }
                 if(item.getItemId()==R.id.itemNV_doanhso){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgThongke()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgStatistical()).commit();
                     getSupportActionBar().setTitle("Doanh số");
                     setFragmene(6);
                 }
                 if(item.getItemId()==R.id.itemNV_doimatkhau){
-                    from_main.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new doiMatKhau()).commit();
+                    Home.this.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgChangePassword()).commit();
                     getSupportActionBar().setTitle("Đổi mật khẩu");
                     setFragmene(7);
                 }
@@ -89,7 +92,7 @@ public class from_main extends AppCompatActivity {
                 return false;
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgQuanliphieumuon()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgLoanSlipManager()).commit();
     }
 
 

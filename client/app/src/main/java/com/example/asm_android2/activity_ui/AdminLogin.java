@@ -1,10 +1,12 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class loginAccountAdmin extends AppCompatActivity {
+import com.example.asm_android2.R;
+
+public class AdminLogin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

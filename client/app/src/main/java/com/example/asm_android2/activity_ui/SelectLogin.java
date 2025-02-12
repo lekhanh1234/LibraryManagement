@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class selectLogin extends AppCompatActivity {
+import com.example.asm_android2.R;
+
+public class SelectLogin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,11 @@ public class selectLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkSelect[0]==1){
-                    Intent a=new Intent(selectLogin.this,login_thuthu.class);
+                    Intent a=new Intent(SelectLogin.this, LibrarianLogin.class);
                     startActivity(a);
                 }
                 if(checkSelect[0]==0){
-                    Intent a=new Intent(selectLogin.this,loginAdmin.class);
+                    Intent a=new Intent(SelectLogin.this, LoginAdmin.class);
                     startActivity(a);
                 }
             }

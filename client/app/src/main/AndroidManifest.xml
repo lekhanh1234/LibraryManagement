@@ -19,14 +19,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".changePassWordThuThu"
+            android:name=".activity_ui.ChangeAdminPassword"
             android:exported="false" />
         <activity
-            android:name=".addAccountThuthu"
+            android:name=".activity_ui.AddLibrarian"
             android:exported="false"
             android:theme="@style/suportActionBar" />
         <activity
-            android:name=".loginAccountAdmin"
+            android:name=".activity_ui.AdminLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,10 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".from_mainAdmin"
+            android:name=".activity_ui.HomeAdmin"
             android:exported="false" />
         <activity
-            android:name=".selectLogin"
+            android:name=".activity_ui.SelectLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,28 +46,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".addPhieu"
+            android:name=".activity_ui.AddLoanSlip"
             android:exported="false"
             android:theme="@style/suportActionBar" />
         <activity
-            android:name=".addBook"
+            android:name=".activity_ui.AddBook"
             android:exported="false"
             android:theme="@style/suportActionBar" />
         <activity
-            android:name=".loginAdmin"
+            android:name=".activity_ui.LoginAdmin"
             android:exported="false">
         </activity>
         <activity
-            android:name=".from_main"
+            android:name=".activity_ui.Home"
             android:exported="false"
             android:theme="@style/style_form_main">
         </activity>
         <activity
-            android:name=".Sign_up"
+            android:name=".activity_ui.SignUp"
             android:exported="false"
             android:theme="@style/style_SignUp" />
         <activity
-            android:name=".login_thuthu"
+            android:name=".activity_ui.LibrarianLogin"
             android:exported="false">
         </activity>
     </application>

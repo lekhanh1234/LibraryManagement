@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.example.asm_android2.R;
+import com.example.asm_android2.activity_ui.AddBook;
 import com.example.asm_android2.adapter.adapterBook;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fgQuanlisach#newInstance} factory method to
+ * Use the {@link fgBookManager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fgQuanlisach extends Fragment {
+public class fgBookManager extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +32,7 @@ public class fgQuanlisach extends Fragment {
     private String mParam2;
 
     private adapterBook adapterBook;
-    public fgQuanlisach() {
+    public fgBookManager() {
         // Required empty public constructor
     }
 
@@ -42,8 +45,8 @@ public class fgQuanlisach extends Fragment {
      * @return A new instance of fragment fgQuanlisach.
      */
     // TODO: Rename and change types and number of parameters
-    public static fgQuanlisach newInstance(String param1, String param2) {
-        fgQuanlisach fragment = new fgQuanlisach();
+    public static fgBookManager newInstance(String param1, String param2) {
+        fgBookManager fragment = new fgBookManager();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,7 +76,7 @@ public class fgQuanlisach extends Fragment {
         BTN_addCatoloryBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), addBook.class);
+                Intent intent=new Intent(getContext(), AddBook.class);
                 startActivity(intent);
             }
         });

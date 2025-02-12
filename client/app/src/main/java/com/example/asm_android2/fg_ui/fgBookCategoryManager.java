@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.adapter.adapterQuanliloaisach;
@@ -22,10 +23,10 @@ import com.example.asm_android2.modal.Category;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fgQuanliloaisach#newInstance} factory method to
+ * Use the {@link fgBookCategoryManager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fgQuanliloaisach extends Fragment {
+public class fgBookCategoryManager extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +37,7 @@ public class fgQuanliloaisach extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fgQuanliloaisach() {
+    public fgBookCategoryManager() {
         // Required empty public constructor
     }
 
@@ -49,8 +50,8 @@ public class fgQuanliloaisach extends Fragment {
      * @return A new instance of fragment fgQuanliloaisach.
      */
     // TODO: Rename and change types and number of parameters
-    public static fgQuanliloaisach newInstance(String param1, String param2) {
-        fgQuanliloaisach fragment = new fgQuanliloaisach();
+    public static fgBookCategoryManager newInstance(String param1, String param2) {
+        fgBookCategoryManager fragment = new fgBookCategoryManager();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

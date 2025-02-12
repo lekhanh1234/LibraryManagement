@@ -122,11 +122,6 @@ public class LoanSlipDAO {
             }).start();
         }
     }
-
-    public int addMemberToSever(String dinhdanhmember, String nameMember, int idThuthu) {
-
-    }
-
     public int addLoanSlipToSever(String receiptNumber, int idLibrarian, int idbook, int idmember, int states, String rentalDate, String deadline) {
         try {
             String url = "http://192.168.43.189:8080/sever_messenger/insertPhieuMuon";

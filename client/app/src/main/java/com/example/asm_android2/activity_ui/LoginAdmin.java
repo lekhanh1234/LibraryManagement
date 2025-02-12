@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Admin;
 import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.ServerService.checkAccountAdmin;
@@ -23,7 +24,7 @@ import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class loginAdmin extends AppCompatActivity {
+public class LoginAdmin extends AppCompatActivity {
     Handler handler = new Handler();
 
     @Override
@@ -36,14 +37,14 @@ public class loginAdmin extends AppCompatActivity {
         btn_loGin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkUtils.isNetworkAvailable(loginAdmin.this)==false){
-                    Toast.makeText(loginAdmin.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                if(NetworkUtils.isNetworkAvailable(LoginAdmin.this)==false){
+                    Toast.makeText(LoginAdmin.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String userName=edt_nameUser.getText().toString();
                 String passWord=edt_passWord.getText().toString();
                 if(userName.length()==0||passWord.length()==0){
-                    Toast.makeText(loginAdmin.this,"BẠN CHƯA NHẬP ĐỦ THÔNG TIN",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginAdmin.this,"BẠN CHƯA NHẬP ĐỦ THÔNG TIN",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Thread a=new Thread(new Runnable() {
@@ -64,7 +65,7 @@ public class loginAdmin extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        AlertDialog.Builder builder= new AlertDialog.Builder(loginAdmin.this);
+                        AlertDialog.Builder builder= new AlertDialog.Builder(LoginAdmin.this);
                         builder.setTitle("");
                         builder.setMessage("UserName hoặc Password không hợp lệ");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -111,7 +112,7 @@ public class loginAdmin extends AppCompatActivity {
 
                 }
                 Admin.setListAccountThuThu(list);
-                Intent x=new Intent(loginAdmin.this, from_mainAdmin.class);
+                Intent x=new Intent(LoginAdmin.this, HomeAdmin.class);
                 startActivity(x);
             }
         } catch (Exception e){

@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.LoanSlipDAO;
@@ -30,7 +31,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class addPhieu extends AppCompatActivity {
+public class AddLoanSlip extends AppCompatActivity {
     private EditText EDT_maPhieu;
     private EditText EDT_nameMember;
     private EditText EDT_maThanhVien;
@@ -95,7 +96,7 @@ public class addPhieu extends AppCompatActivity {
         BTN_selectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(addPhieu.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddLoanSlip.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -116,37 +117,37 @@ public class addPhieu extends AppCompatActivity {
         BTN_themPhieuMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkUtils.isNetworkAvailable(addPhieu.this)==false){
-                    Toast.makeText(addPhieu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                if(NetworkUtils.isNetworkAvailable(AddLoanSlip.this)==false){
+                    Toast.makeText(AddLoanSlip.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String maPhieu=EDT_maPhieu.getText().toString().trim();
                 if(maPhieu.length()==0) {
-                    Toast.makeText(addPhieu.this,"Ma Phieu Trong",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLoanSlip.this,"Ma Phieu Trong",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int idThuthu= Librarian.getId();
                 String nameMember=EDT_nameMember.getText().toString().trim();
                 if(nameMember.length()==0){
-                    Toast.makeText(addPhieu.this,"Ten Thanh Vien Trong",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLoanSlip.this,"Ten Thanh Vien Trong",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
                     Pattern pattern=Pattern.compile("^[a-zA-Z]*(\\s[a-zA-Z]*)*$");
                     Matcher matcher=pattern.matcher(nameMember);
                     if(matcher.matches()==false){
-                        Toast.makeText(addPhieu.this,"Ten Khong Hop Le",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddLoanSlip.this,"Ten Khong Hop Le",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 String maThanhVien=EDT_maThanhVien.getText().toString().trim();
                 if(maThanhVien.length()==0){
-                    Toast.makeText(addPhieu.this, "Ma thanh vien trong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLoanSlip.this, "Ma thanh vien trong", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(tenSachandMaSach.length()==0) {
-                    Toast.makeText(addPhieu.this, "Khong co sach duoc chon !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLoanSlip.this, "Khong co sach duoc chon !", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String arrayMaSachandTenSach[]=tenSachandMaSach.split(":");
@@ -156,38 +157,38 @@ public class addPhieu extends AppCompatActivity {
                 int trangthai=0;
                 String Currenttime=""+YearCurrent+"-"+MonthCurrent+"-"+DayCurrent;
                     if(YearSelect==0&&MonthSelect==0&&DaySelect==0) {
-                        Toast.makeText(addPhieu.this, "Chon thoi han", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddLoanSlip.this, "Chon thoi han", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     String selectTime=""+YearSelect+"-"+MonthSelect+"-"+DaySelect;
                if(YearSelect<YearCurrent){
-                   Toast.makeText(addPhieu.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(AddLoanSlip.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
                    return;
                }
                if(YearSelect==YearCurrent) {
                    if (MonthSelect < MonthCurrent) {
                        {
-                           Toast.makeText(addPhieu.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(AddLoanSlip.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
                            return;
                        }
                    }
                    if (MonthSelect == MonthCurrent) {
                        if (DaySelect <= DayCurrent) {
                            {
-                               Toast.makeText(addPhieu.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
+                               Toast.makeText(AddLoanSlip.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
                                return;
                            }
                        }
                    }
                }
 
-                LibraryDB newdb=new LibraryDB(addPhieu.this,"DATABASEThuVien",null,1);
+                LibraryDB newdb=new LibraryDB(AddLoanSlip.this,"DATABASEThuVien",null,1);
                 LoanSlipDAO loanSlipDao =new LoanSlipDAO(newdb);
                 List<LoanSlip> list= loanSlipDao.getAllPhieuMuon();
                 if(list!=null)
                     for(LoanSlip x:list){
                         if(x.getMaphieu().equalsIgnoreCase(maPhieu)){
-                            Toast.makeText(addPhieu.this,"Mã phiếu đã tồn tại",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddLoanSlip.this,"Mã phiếu đã tồn tại",Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.os.Bundle;
 
@@ -11,16 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.LibrarianDAO;
 import com.example.asm_android2.dao.LibraryDB;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link doiMatKhau#newInstance} factory method to
+ * Use the {@link fgChangePassword#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class doiMatKhau extends Fragment {
+public class fgChangePassword extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +32,7 @@ public class doiMatKhau extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public doiMatKhau() {
+    public fgChangePassword() {
         // Required empty public constructor
     }
 
@@ -44,8 +45,8 @@ public class doiMatKhau extends Fragment {
      * @return A new instance of fragment doiMatKhau.
      */
     // TODO: Rename and change types and number of parameters
-    public static doiMatKhau newInstance(String param1, String param2) {
-        doiMatKhau fragment = new doiMatKhau();
+    public static fgChangePassword newInstance(String param1, String param2) {
+        fgChangePassword fragment = new fgChangePassword();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

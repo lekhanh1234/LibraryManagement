@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.dao.LoanSlipDAO;
 import com.example.asm_android2.dao.LibraryDB;
 import com.example.asm_android2.modal.LoanSlip;
@@ -27,10 +28,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fgThongke#newInstance} factory method to
+ * Use the {@link fgStatistical#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fgThongke extends Fragment {
+public class fgStatistical extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +42,7 @@ public class fgThongke extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fgThongke() {
+    public fgStatistical() {
         // Required empty public constructor
     }
 
@@ -54,8 +55,8 @@ public class fgThongke extends Fragment {
      * @return A new instance of fragment fgThongke.
      */
     // TODO: Rename and change types and number of parameters
-    public static fgThongke newInstance(String param1, String param2) {
-        fgThongke fragment = new fgThongke();
+    public static fgStatistical newInstance(String param1, String param2) {
+        fgStatistical fragment = new fgStatistical();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

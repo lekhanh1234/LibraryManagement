@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.LibraryDB;
@@ -25,7 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class login_thuthu extends AppCompatActivity {
+public class LibrarianLogin extends AppCompatActivity {
     Handler handler = new Handler();
 
     @Override
@@ -38,8 +39,8 @@ public class login_thuthu extends AppCompatActivity {
         btn_loGin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkUtils.isNetworkAvailable(login_thuthu.this)==false){
-                    Toast.makeText(login_thuthu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                if(NetworkUtils.isNetworkAvailable(LibrarianLogin.this)==false){
+                    Toast.makeText(LibrarianLogin.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Thread a=new Thread(new Runnable() {
@@ -63,7 +64,7 @@ public class login_thuthu extends AppCompatActivity {
                              handler.post(new Runnable() {
                                   @Override
                                   public void run() {
-                                      AlertDialog.Builder builder= new AlertDialog.Builder(login_thuthu.this);
+                                      AlertDialog.Builder builder= new AlertDialog.Builder(LibrarianLogin.this);
                                       builder.setTitle("");
                                       builder.setMessage("UserName hoặc Password không hợp lệ");
                                       builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -91,10 +92,10 @@ public class login_thuthu extends AppCompatActivity {
     }
     private void getData(InputStream is){
         try {
-            login_thuthu.this.deleteDatabase("DATABASEThuVien");
+            LibrarianLogin.this.deleteDatabase("DATABASEThuVien");
             DataInputStream dataInputStream = new DataInputStream(is);
             String regex = "abcxyz987";
-            LibraryDB dbThuVien = new LibraryDB(login_thuthu.this, "DATABASEThuVien", null, 1);
+            LibraryDB dbThuVien = new LibraryDB(LibrarianLogin.this, "DATABASEThuVien", null, 1);
             SQLiteDatabase database = dbThuVien.getWritableDatabase();
             {
                 int receivedNumber = dataInputStream.readInt();
@@ -176,7 +177,7 @@ public class login_thuthu extends AppCompatActivity {
                 database.insert("phieumuon", null, contentValues);
             }
             database.close();
-            Intent a = new Intent(login_thuthu.this, from_main.class);
+            Intent a = new Intent(LibrarianLogin.this, Home.class);
             startActivity(a);
         }
         catch (Exception e){}

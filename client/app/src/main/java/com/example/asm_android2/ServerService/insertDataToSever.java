@@ -1,8 +1,6 @@
 package com.example.asm_android2.ServerService;
 
 import com.example.asm_android2.modal.Admin;
-import com.example.asm_android2.account.AccountThuthu;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;

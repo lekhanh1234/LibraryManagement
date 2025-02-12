@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.os.Bundle;
 
@@ -9,14 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.asm_android2.adapter.adapterTopbook;
+import com.example.asm_android2.R;
+import com.example.asm_android2.adapter.adapterQuanlithanhvien;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link top10sachchomuon#newInstance} factory method to
+ * Use the {@link fgMemberManager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class top10sachchomuon extends Fragment {
+public class fgMemberManager extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +28,7 @@ public class top10sachchomuon extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public top10sachchomuon() {
+    public fgMemberManager() {
         // Required empty public constructor
     }
 
@@ -37,11 +38,11 @@ public class top10sachchomuon extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment top10sachchomuon.
+     * @return A new instance of fragment fgQuanlithanhvien.
      */
     // TODO: Rename and change types and number of parameters
-    public static top10sachchomuon newInstance(String param1, String param2) {
-        top10sachchomuon fragment = new top10sachchomuon();
+    public static fgMemberManager newInstance(String param1, String param2) {
+        fgMemberManager fragment = new fgMemberManager();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,13 +60,13 @@ public class top10sachchomuon extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_top10sachchomuon, container, false);
-        ListView listView=view.findViewById(R.id.LVtopsachchomuon);
-        adapterTopbook adapterTopbook=new adapterTopbook(getContext());
-        listView.setAdapter(adapterTopbook);
+        View view= inflater.inflate(R.layout.fragment_fg_quanlithanhvien, container, false);
+        ListView listView=view.findViewById(R.id.LVquanlithanhvien);
+        adapterQuanlithanhvien adapterQuanlithanhvien=new adapterQuanlithanhvien(getContext());
+        listView.setAdapter(adapterQuanlithanhvien);
         return view;
     }
 }

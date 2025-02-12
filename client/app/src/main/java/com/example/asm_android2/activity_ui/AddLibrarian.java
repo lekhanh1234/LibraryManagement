@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Admin;
 import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.ServerService.NetworkUtils;
@@ -19,7 +20,7 @@ import com.example.asm_android2.ServerService.insertDataToSever;
 
 import java.util.List;
 
-public class addAccountThuthu extends AppCompatActivity {
+public class AddLibrarian extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class addAccountThuthu extends AppCompatActivity {
         BTN_confirmAddThuThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkUtils.isNetworkAvailable(addAccountThuthu.this)==false){
-                    Toast.makeText(addAccountThuthu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                if(NetworkUtils.isNetworkAvailable(AddLibrarian.this)==false){
+                    Toast.makeText(AddLibrarian.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String name=EDT_nameThuThu.getText().toString().trim();
@@ -45,25 +46,25 @@ public class addAccountThuthu extends AppCompatActivity {
                 String passWord=EDT_passWord.getText().toString().trim();
                 String dinhdanh=EDT_dinhDanh.getText().toString().trim();
                 if(name.length()==0){
-                    Toast.makeText(addAccountThuthu.this,"TÊN KHÔNG HỢP LỆ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLibrarian.this,"TÊN KHÔNG HỢP LỆ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for(int i=0;i<name.length();i++){
                     if((name.charAt(i)<'A'||(name.charAt(i)>'Z'&&name.charAt(i)<'a'))&&name.codePointAt(i)!=32){
-                        Toast.makeText(addAccountThuthu.this,"TÊN KHÔNG HỢP LỆ",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddLibrarian.this,"TÊN KHÔNG HỢP LỆ",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 if(userName.length()<5){
-                    Toast.makeText(addAccountThuthu.this,"USER NAME PHẢI CHỨA ÍT NHẤT 5 KÍ TỰ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLibrarian.this,"USER NAME PHẢI CHỨA ÍT NHẤT 5 KÍ TỰ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(passWord.length()<5){
-                    Toast.makeText(addAccountThuthu.this,"PASSWORD PHẢI CHỨA ÍT NHẤT 5 KÍ TỰ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLibrarian.this,"PASSWORD PHẢI CHỨA ÍT NHẤT 5 KÍ TỰ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(dinhdanh.length()<3){
-                    Toast.makeText(addAccountThuthu.this,"DINH DANH TRỐNG PHẢI CHỨA ÍT NHẤT 3 KÍ TỰ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLibrarian.this,"DINH DANH TRỐNG PHẢI CHỨA ÍT NHẤT 3 KÍ TỰ",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -71,14 +72,14 @@ public class addAccountThuthu extends AppCompatActivity {
                 List<AccountThuthu> list= Admin.getListAccountThuThu();
                 for(AccountThuthu x: list){
                     if(x.getMadinhdanh().equalsIgnoreCase(dinhdanh)){
-                        Toast.makeText(addAccountThuthu.this,"MÃ ĐỊNH DANH THỦ THƯ TRÙNG LẶP",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddLibrarian.this,"MÃ ĐỊNH DANH THỦ THƯ TRÙNG LẶP",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 // TIENS HÀNH CẬP NHẬT DƯ LIEU TREN SEVER
                 boolean result=new insertDataToSever().insertAccountThuThuToSever(name,userName,passWord,dinhdanh);
                 if(result==false){
-                    Toast.makeText(addAccountThuthu.this,"MÃ ĐỊNH DANH THỦ THƯ ĐÃ TỒN TẠI",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddLibrarian.this,"MÃ ĐỊNH DANH THỦ THƯ ĐÃ TỒN TẠI",Toast.LENGTH_SHORT).show();
                 }
                 setResult(1,new Intent());
                 finish();

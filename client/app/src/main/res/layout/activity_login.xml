@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login_thuthu"
+    tools:context=".activity_ui.LibrarianLogin"
     android:background="@drawable/login"
     >
 

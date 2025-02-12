@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.adapter.adtListAccountThuThu;
 
-public class from_mainAdmin extends AppCompatActivity {
+public class HomeAdmin extends AppCompatActivity {
      private adtListAccountThuThu listAccountThuThu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +26,14 @@ public class from_mainAdmin extends AppCompatActivity {
         BTN_addThuthu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent a=new Intent(from_mainAdmin.this,addAccountThuthu.class);
+                Intent a=new Intent(HomeAdmin.this, AddLibrarian.class);
                 startActivityForResult(a,1);
             }
         });
         BTN_changePassWordThuThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent a=new Intent(from_mainAdmin.this,changePassWordThuThu.class);
+                Intent a=new Intent(HomeAdmin.this, ChangeAdminPassword.class);
                 startActivity(a);
             }
         });

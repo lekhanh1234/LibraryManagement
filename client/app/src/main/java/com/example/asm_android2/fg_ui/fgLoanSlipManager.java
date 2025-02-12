@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.fg_ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.asm_android2.R;
+import com.example.asm_android2.activity_ui.AddLoanSlip;
 import com.example.asm_android2.adapter.adapterQuanliphieumuon;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fgQuanliphieumuon#newInstance} factory method to
+ * Use the {@link fgLoanSlipManager#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fgQuanliphieumuon extends Fragment {
+public class fgLoanSlipManager extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,7 +32,7 @@ public class fgQuanliphieumuon extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public fgQuanliphieumuon() {
+    public fgLoanSlipManager() {
         // Required empty public constructor
     }
 
@@ -44,8 +45,8 @@ public class fgQuanliphieumuon extends Fragment {
      * @return A new instance of fragment fgQuanliphieumuon.
      */
     // TODO: Rename and change types and number of parameters
-    public static fgQuanliphieumuon newInstance(String param1, String param2) {
-        fgQuanliphieumuon fragment = new fgQuanliphieumuon();
+    public static fgLoanSlipManager newInstance(String param1, String param2) {
+        fgLoanSlipManager fragment = new fgLoanSlipManager();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,7 +75,7 @@ public class fgQuanliphieumuon extends Fragment {
         BTN_addPhieuMuon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent a=new Intent(getContext(), addPhieu.class);
+                Intent a=new Intent(getContext(), AddLoanSlip.class);
                 startActivity(a);
             }
         });

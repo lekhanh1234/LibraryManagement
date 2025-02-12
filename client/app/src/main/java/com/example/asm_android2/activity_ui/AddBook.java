@@ -1,4 +1,4 @@
-package com.example.asm_android2;
+package com.example.asm_android2.activity_ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.CategoryDAO;
@@ -27,7 +28,7 @@ import com.example.asm_android2.modal.Category;
 
 import java.util.List;
 
-public class addBook extends AppCompatActivity {
+public class AddBook extends AppCompatActivity {
     String nameCatoloryBook="";
 
     @Override
@@ -86,8 +87,8 @@ public class addBook extends AppCompatActivity {
         BTN_addBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(NetworkUtils.isNetworkAvailable(addBook.this)==false){
-                    Toast.makeText(addBook.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
+                if(NetworkUtils.isNetworkAvailable(AddBook.this)==false){
+                    Toast.makeText(AddBook.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String masach=EDT_maSach.getText().toString().trim();
@@ -95,24 +96,24 @@ public class addBook extends AppCompatActivity {
                 String tenloaisach=nameCatoloryBook;
 
                 if(masach.length()==0||tensach.length()==0){
-                    Toast.makeText(addBook.this,"Dữ Liệu Trống",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBook.this,"Dữ Liệu Trống",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int giathue=0;
                 try {
                     giathue=Integer.parseInt(EDT_giaThue.getText().toString().trim());
-                    if(giathue<=0) Toast.makeText(addBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
+                    if(giathue<=0) Toast.makeText(AddBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
-                    Toast.makeText(addBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(tenloaisach.length()==0){
-                    Toast.makeText(addBook.this,"Không có thông tin loại sách !",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBook.this,"Không có thông tin loại sách !",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                LibraryDB libraryDB =new LibraryDB(addBook.this,"DATABASEThuVien",null,1);
+                LibraryDB libraryDB =new LibraryDB(AddBook.this,"DATABASEThuVien",null,1);
                 boolean ketqua= new BookDAO(libraryDB).insertBook(new Book(masach,tensach,giathue,tenloaisach, Librarian.getId()));
                 libraryDB.getWritableDatabase().close();
                 Log.d("hamfinish duoc goi", "onClick: ");
