@@ -11,10 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountThuthu;
-import com.example.asm_android2.dataBase.DAOThuthu;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-
 public class Sign_up extends AppCompatActivity {
 
     @Override

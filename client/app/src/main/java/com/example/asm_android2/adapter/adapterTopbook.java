@@ -1,23 +1,20 @@
-package com.example.asm_android2;
+package com.example.asm_android2.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.asm_android2.dataBase.DAOPhieuMuon;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Phieumuon;
+import com.example.asm_android2.R;
+import com.example.asm_android2.dao.LoanSlipDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.LoanSlip;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class adapterTopbook extends BaseAdapter {
     Context context;
@@ -29,12 +26,12 @@ public class adapterTopbook extends BaseAdapter {
 
     @Override
     public int getCount() {
-        DATABASEThuvien dbThuVien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-        DAOPhieuMuon daoPhieuMuon=new DAOPhieuMuon(dbThuVien);
-        List<Phieumuon> listAllPhieu=daoPhieuMuon.getAllPhieuMuon();
+        LibraryDB dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
+        LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbThuVien);
+        List<LoanSlip> listAllPhieu= loanSlipDao.getAllPhieuMuon();
         list.clear();
         if(listAllPhieu==null) return 0;
-        for(Phieumuon x:listAllPhieu){
+        for(LoanSlip x:listAllPhieu){
             String maSach=x.getMasach();
             String tenSach=x.getTensach();
             if(list.size()!=0) {

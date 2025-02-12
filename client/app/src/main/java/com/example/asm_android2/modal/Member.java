@@ -1,8 +1,4 @@
-package com.example.asm_android2.infoManageThuThu;
-
-import android.widget.TextView;
-
-import com.example.asm_android2.R;
+package com.example.asm_android2.modal;
 
 public class Member {
     private int idMember;

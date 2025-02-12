@@ -3,9 +3,6 @@ package com.example.asm_android2.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,35 +14,34 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.asm_android2.R;
-import com.example.asm_android2.dataBase.DAOLoaiSach;
-import com.example.asm_android2.dataBase.DAOPhieuMuon;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Phieumuon;
+import com.example.asm_android2.dao.LoanSlipDAO;
+import com.example.asm_android2.dao.BookDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.LoanSlip;
 
 import java.util.List;
 
 public class adapterQuanliphieumuon extends BaseAdapter {
     private Context context;
-    private DATABASEThuvien dbThuVien;
-    private DAOPhieuMuon daoPhieuMuon;
-    private List<Phieumuon> listPhieumuon;
+    private LibraryDB dbThuVien;
+    private LoanSlipDAO loanSlipDao;
+    private List<LoanSlip> listLoanSlip;
 
     public adapterQuanliphieumuon(Context context) {
         this.context = context;
-        dbThuVien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-        daoPhieuMuon=new DAOPhieuMuon(dbThuVien);
+        dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
+        loanSlipDao =new LoanSlipDAO(dbThuVien);
     }
 
     @Override
     public int getCount() {
-        listPhieumuon=daoPhieuMuon.getAllPhieuMuon();
-        if ((listPhieumuon==null)) {
+        listLoanSlip = loanSlipDao.getAllPhieuMuon();
+        if ((listLoanSlip ==null)) {
             dbThuVien.getReadableDatabase().close();
             return 0;
         }
         dbThuVien.getReadableDatabase().close();
-        return listPhieumuon.size();
+        return listLoanSlip.size();
     }
 
     @Override
@@ -60,7 +56,7 @@ public class adapterQuanliphieumuon extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Phieumuon phieumuon=listPhieumuon.get(position);
+        LoanSlip loanSlip = listLoanSlip.get(position);
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
         convertView=layoutInflater.inflate(R.layout.infophieumuon,null);
         TextView TVidphieu=convertView.findViewById(R.id.TVidphieu);
@@ -85,18 +81,18 @@ public class adapterQuanliphieumuon extends BaseAdapter {
                 builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DATABASEThuvien daoThuVien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-                        DAOPhieuMuon daoPhieuMuon=new DAOPhieuMuon(daoThuVien);
+                        LibraryDB daoThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
+                        LoanSlipDAO loanSlipDao =new LoanSlipDAO(daoThuVien);
                         switch (which) {
                             case 0:
                                 TVstatus.setText("Tính trạng : Đã trả");
                                 // da tra ung voi ma trang thai la 1
-                                daoPhieuMuon.thayDoiTrangThai(phieumuon.getMaphieu(),1);
+                                loanSlipDao.thayDoiTrangThai(loanSlip.getMaphieu(),1);
                                 break;
                             case 1:
                                 TVstatus.setText("Tính trạng : Chưa trả");
                                 // chua tra ung voi ma trang thai la 0
-                                daoPhieuMuon.thayDoiTrangThai(phieumuon.getMaphieu(),0);
+                                loanSlipDao.thayDoiTrangThai(loanSlip.getMaphieu(),0);
                                 break;
                         }
                         daoThuVien.getWritableDatabase().close();
@@ -110,16 +106,16 @@ public class adapterQuanliphieumuon extends BaseAdapter {
             }
         });
 
-            TVidphieu.setText("Mã phiếu : "+phieumuon.getMaphieu());
-            TVtensach.setText("Tên sách : "+phieumuon.getTensach());
-            TVthanhvien.setText("Thành viên : "+phieumuon.getMember());
-            DAOSach daoSach=new DAOSach(dbThuVien);
-            int giathue=daoSach.getGiaTriTheoMaSach(phieumuon.getMasach());
+            TVidphieu.setText("Mã phiếu : "+ loanSlip.getMaphieu());
+            TVtensach.setText("Tên sách : "+ loanSlip.getTensach());
+            TVthanhvien.setText("Thành viên : "+ loanSlip.getMember());
+            BookDAO bookDao =new BookDAO(dbThuVien);
+            int giathue= bookDao.getGiaTriTheoMaSach(loanSlip.getMasach());
             TVgiathue.setText("Giá thuê : "+giathue);
-            String trangthai=phieumuon.getTrangthai()!=0 ? "Đã trả" : "Chưa trả";
+            String trangthai= loanSlip.getTrangthai()!=0 ? "Đã trả" : "Chưa trả";
             TVstatus.setText("Tính trạng : "+trangthai);
-            TVngaythue.setText("Ngày thuê : "+phieumuon.getNgaythue());
-            TVthoihan.setText("Thời hạn : "+phieumuon.getThoihan());
+            TVngaythue.setText("Ngày thuê : "+ loanSlip.getNgaythue());
+            TVthoihan.setText("Thời hạn : "+ loanSlip.getThoihan());
 
         IMG_deletePhieu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +129,7 @@ public class adapterQuanliphieumuon extends BaseAdapter {
                 alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        daoPhieuMuon.deleteData(listPhieumuon.get(position).getMaphieu());
+                        loanSlipDao.deleteData(listLoanSlip.get(position).getMaphieu());
                         notifyDataSetChanged();
                     }
                 });

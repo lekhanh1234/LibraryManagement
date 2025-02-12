@@ -9,31 +9,21 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountThuThuLogin;
-import com.example.asm_android2.Account.AccountThuthu;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.dataBase.DAOLoaiSach;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DAOThuthu;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Book;
-import com.example.asm_android2.infoManageThuThu.Loaisach;
+import com.example.asm_android2.modal.Librarian;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.dao.LibraryDB;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class login_thuthu extends AppCompatActivity {
     Handler handler = new Handler();
@@ -48,7 +38,7 @@ public class login_thuthu extends AppCompatActivity {
         btn_loGin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(login_thuthu.this)==false){
+                if(NetworkUtils.isNetworkAvailable(login_thuthu.this)==false){
                     Toast.makeText(login_thuthu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -104,7 +94,7 @@ public class login_thuthu extends AppCompatActivity {
             login_thuthu.this.deleteDatabase("DATABASEThuVien");
             DataInputStream dataInputStream = new DataInputStream(is);
             String regex = "abcxyz987";
-            DATABASEThuvien dbThuVien = new DATABASEThuvien(login_thuthu.this, "DATABASEThuVien", null, 1);
+            LibraryDB dbThuVien = new LibraryDB(login_thuthu.this, "DATABASEThuVien", null, 1);
             SQLiteDatabase database = dbThuVien.getWritableDatabase();
             {
                 int receivedNumber = dataInputStream.readInt();
@@ -119,7 +109,7 @@ public class login_thuthu extends AppCompatActivity {
                 contentValues.put("nameThuThu", arrrayDetached[3]);
                 contentValues.put("dinhdanh", arrrayDetached[4]);
                 database.insert("accountThuthu", null, contentValues);
-                AccountThuThuLogin.setId(Integer.parseInt(arrrayDetached[0]));
+                Librarian.setId(Integer.parseInt(arrrayDetached[0]));
             }
             while (true) {
                 int recivednumber = dataInputStream.readInt();

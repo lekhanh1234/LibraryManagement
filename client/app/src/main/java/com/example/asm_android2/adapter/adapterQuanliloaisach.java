@@ -10,23 +10,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.example.asm_android2.OperationSever.checkInternet;
+import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.R;
-import com.example.asm_android2.dataBase.DAOLoaiSach;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Book;
-import com.example.asm_android2.infoManageThuThu.Loaisach;
-import com.example.asm_android2.login_thuthu;
+import com.example.asm_android2.dao.CategoryDAO;
+import com.example.asm_android2.dao.BookDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.Category;
 
 import java.util.List;
 
 
 public class adapterQuanliloaisach extends BaseAdapter {
     Context context;
-    List<Loaisach> listCatolotyBook;
+    List<Category> listCatolotyBook;
 
     public adapterQuanliloaisach(Context context) {
         this.context = context;
@@ -34,9 +30,9 @@ public class adapterQuanliloaisach extends BaseAdapter {
 
     @Override
     public int getCount() {
-        DATABASEThuvien db=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-        DAOLoaiSach daoLoaiSach=new DAOLoaiSach(db);
-        listCatolotyBook=daoLoaiSach.getAllLoaiSach();
+        LibraryDB db=new LibraryDB(context,"DATABASEThuVien",null,1);
+        CategoryDAO categoryDao =new CategoryDAO(db);
+        listCatolotyBook= categoryDao.getAllLoaiSach();
         db.getReadableDatabase().close();
         return listCatolotyBook.size();
     }
@@ -55,7 +51,7 @@ public class adapterQuanliloaisach extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
         convertView=layoutInflater.inflate(R.layout.infoloaissach,null);
-        Loaisach x=listCatolotyBook.get(position);
+        Category x=listCatolotyBook.get(position);
             TextView tenloaisach=convertView.findViewById(R.id.TVtenloaisach);
             tenloaisach.setText("Loại sách :"+x.getLoaisach());
 
@@ -66,10 +62,10 @@ public class adapterQuanliloaisach extends BaseAdapter {
 
             TextView TV_soluong=convertView.findViewById(R.id.TVsoluong);
 
-            DATABASEThuvien db=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-            DAOLoaiSach daoLoaiSach=new DAOLoaiSach(db);
-            int idCatolory=daoLoaiSach.getIdByName(x.getLoaisach());
-            int amount=daoLoaiSach.amountCatolory(idCatolory);
+            LibraryDB db=new LibraryDB(context,"DATABASEThuVien",null,1);
+            CategoryDAO categoryDao =new CategoryDAO(db);
+            int idCatolory= categoryDao.getIdByName(x.getLoaisach());
+            int amount= categoryDao.amountCatolory(idCatolory);
             TV_soluong.setText("số lượng :"+amount);
             db.getReadableDatabase().close();
 
@@ -77,24 +73,24 @@ public class adapterQuanliloaisach extends BaseAdapter {
             IMG_deleteLoaiSach.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkInternet.isNetworkAvailable(context)==false){
+                    if(NetworkUtils.isNetworkAvailable(context)==false){
                         Toast.makeText(context,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    DATABASEThuvien databaseThuvien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-                    DAOLoaiSach daoLoaiSach1=new DAOLoaiSach(databaseThuvien);
-                    int idCatoloryBook=daoLoaiSach1.getIdByName(x.getLoaisach()); // vi khi them vao co so du lieu, ma sach va ten sach k the lap lai neu moi ten sach chi tuong ung 1 id
-                    DAOSach daoSach=new DAOSach(databaseThuvien);
-                    boolean resuft=daoSach.checkCatoloryBookById(idCatoloryBook);
+                    LibraryDB libraryDB =new LibraryDB(context,"DATABASEThuVien",null,1);
+                    CategoryDAO categoryDao1 =new CategoryDAO(libraryDB);
+                    int idCatoloryBook= categoryDao1.getIdByName(x.getLoaisach()); // vi khi them vao co so du lieu, ma sach va ten sach k the lap lai neu moi ten sach chi tuong ung 1 id
+                    BookDAO bookDao =new BookDAO(libraryDB);
+                    boolean resuft= bookDao.checkCatoloryBookById(idCatoloryBook);
                     if(resuft==true){
                         Toast.makeText(context,"THAO TÁC KHÔNG THÀNH CÔNG, MÃ LOẠI SÁCH CHỈ CÓ THỂ XÓA KHI KHÔNG CÒN SÁCH THÀNH PHẦN",Toast.LENGTH_LONG).show();
                     }
                     else {
-                        daoLoaiSach1.deleteLoaiSachById(idCatoloryBook);
+                        categoryDao1.deleteLoaiSachById(idCatoloryBook);
                         notifyDataSetChanged();
                     }
-                    databaseThuvien.getWritableDatabase().close();
-                    databaseThuvien.getReadableDatabase().close();
+                    libraryDB.getWritableDatabase().close();
+                    libraryDB.getReadableDatabase().close();
 
                 }
             });

@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.dataBase.DAOThuthu;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.dao.LibrarianDAO;
+import com.example.asm_android2.dao.LibraryDB;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,17 +74,17 @@ public class doiMatKhau extends Fragment {
         BT_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(getContext())==false){
+                if(NetworkUtils.isNetworkAvailable(getContext())==false){
                     Toast.makeText(getContext(),"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String password=EDT_password.getText().toString().trim();
                 String newpassword=EDT_newpassword.getText().toString().trim();
                 String newpassword2=EDT_newpassword2.getText().toString().trim();
-                DATABASEThuvien dbThuVien=new DATABASEThuvien(getContext(),"DATABASEThuVien",null,1);
-                DAOThuthu daoThuthu=new DAOThuthu(dbThuVien);
+                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                LibrarianDAO librarianDao =new LibrarianDAO(dbThuVien);
 
-                if(password.length()==0||daoThuthu.checkPassword(password)==false){
+                if(password.length()==0|| librarianDao.checkPassword(password)==false){
                     Toast.makeText(getContext(),"MẬT KHẨU KHÔNG HỢP LỆ",Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -97,7 +97,7 @@ public class doiMatKhau extends Fragment {
                     return;
                 }
                 // THAY DOI MAT KHAU TRONG DATABASE VA TREN SEVER;
-                daoThuthu.changePassWord(newpassword,password);
+                librarianDao.changePassWord(newpassword,password);
                 Toast.makeText(getContext(),"MAT KHAU DA DUOC THAY DOI",Toast.LENGTH_SHORT).show();
                 //
             }

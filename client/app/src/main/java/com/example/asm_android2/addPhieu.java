@@ -5,10 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,19 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountThuThuLogin;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.dataBase.DAOMember;
-import com.example.asm_android2.dataBase.DAOPhieuMuon;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DAOThuthu;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Book;
-import com.example.asm_android2.infoManageThuThu.Member;
-import com.example.asm_android2.infoManageThuThu.Phieumuon;
+import com.example.asm_android2.modal.Librarian;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.dao.LoanSlipDAO;
+import com.example.asm_android2.dao.BookDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.Book;
+import com.example.asm_android2.modal.LoanSlip;
 
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,7 +46,6 @@ public class addPhieu extends AppCompatActivity {
     private int YearSelect;
     private int MonthSelect;
     private int DaySelect;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +61,11 @@ public class addPhieu extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         YearCurrent=calendar.get(Calendar.YEAR);
-        MonthCurrent=calendar.get(Calendar.MONTH)+1;
+        MonthCurrent=calendar.get(Calendar.MONTH) + 1;
         DayCurrent=calendar.get(Calendar.DAY_OF_MONTH);
 
-        DAOSach daoSach=new DAOSach(new DATABASEThuvien(this,"DATABASEThuVien",null,1));
-        List<Book> list=daoSach.getAllSach();
+        BookDAO bookDao =new BookDAO(new LibraryDB(this,"DATABASEThuVien",null,1));
+        List<Book> list= bookDao.getAllBook();
         if(list!=null){
             listBook=new String[list.size()];
             for(int i=0;i<list.size();i++){
@@ -124,7 +116,7 @@ public class addPhieu extends AppCompatActivity {
         BTN_themPhieuMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(addPhieu.this)==false){
+                if(NetworkUtils.isNetworkAvailable(addPhieu.this)==false){
                     Toast.makeText(addPhieu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -134,7 +126,7 @@ public class addPhieu extends AppCompatActivity {
                     Toast.makeText(addPhieu.this,"Ma Phieu Trong",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                int idThuthu=AccountThuThuLogin.getId();
+                int idThuthu= Librarian.getId();
                 String nameMember=EDT_nameMember.getText().toString().trim();
                 if(nameMember.length()==0){
                     Toast.makeText(addPhieu.this,"Ten Thanh Vien Trong",Toast.LENGTH_SHORT).show();
@@ -189,18 +181,18 @@ public class addPhieu extends AppCompatActivity {
                    }
                }
 
-                DATABASEThuvien newdb=new DATABASEThuvien(addPhieu.this,"DATABASEThuVien",null,1);
-                DAOPhieuMuon daoPhieuMuon=new DAOPhieuMuon(newdb);
-                List<Phieumuon> list=daoPhieuMuon.getAllPhieuMuon();
+                LibraryDB newdb=new LibraryDB(addPhieu.this,"DATABASEThuVien",null,1);
+                LoanSlipDAO loanSlipDao =new LoanSlipDAO(newdb);
+                List<LoanSlip> list= loanSlipDao.getAllPhieuMuon();
                 if(list!=null)
-                    for(Phieumuon x:list){
+                    for(LoanSlip x:list){
                         if(x.getMaphieu().equalsIgnoreCase(maPhieu)){
                             Toast.makeText(addPhieu.this,"Mã phiếu đã tồn tại",Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                Phieumuon phieumuon=new Phieumuon(maPhieu,idThuthu,TenSach,MaSach,nameMember,maThanhVien,trangthai,Currenttime,selectTime);
-                daoPhieuMuon.insertPhieumuon(phieumuon);
+                LoanSlip loanSlip =new LoanSlip(maPhieu,idThuthu,TenSach,MaSach,nameMember,maThanhVien,trangthai,Currenttime,selectTime);
+                loanSlipDao.insertPhieumuon(loanSlip);
                 newdb.getWritableDatabase().close();
                 newdb.getReadableDatabase().close();
                 finish();

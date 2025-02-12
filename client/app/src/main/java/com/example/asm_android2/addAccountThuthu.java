@@ -12,10 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountAdminLogin;
-import com.example.asm_android2.Account.AccountThuthu;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.OperationSever.insertDataToSever;
+import com.example.asm_android2.modal.Admin;
+import com.example.asm_android2.account.AccountThuthu;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.ServerService.insertDataToSever;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class addAccountThuthu extends AppCompatActivity {
         BTN_confirmAddThuThu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(addAccountThuthu.this)==false){
+                if(NetworkUtils.isNetworkAvailable(addAccountThuthu.this)==false){
                     Toast.makeText(addAccountThuthu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -68,7 +68,7 @@ public class addAccountThuthu extends AppCompatActivity {
                 }
 
                 // KIEM TRA DINH DANH VOI CAC TAI KHOAN THU THU CON LAI\
-                List<AccountThuthu> list=AccountAdminLogin.getListAccountThuThu();
+                List<AccountThuthu> list= Admin.getListAccountThuThu();
                 for(AccountThuthu x: list){
                     if(x.getMadinhdanh().equalsIgnoreCase(dinhdanh)){
                         Toast.makeText(addAccountThuthu.this,"MÃ ĐỊNH DANH THỦ THƯ TRÙNG LẶP",Toast.LENGTH_SHORT).show();

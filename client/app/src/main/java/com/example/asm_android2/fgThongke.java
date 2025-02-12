@@ -15,17 +15,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asm_android2.dataBase.DAOPhieuMuon;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Phieumuon;
+import com.example.asm_android2.dao.LoanSlipDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.LoanSlip;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -124,15 +121,15 @@ public class fgThongke extends Fragment {
                 TV_doanhthu.setText("Doanh thu 10 đồng");
 
 
-                DATABASEThuvien dbThuVien=new DATABASEThuvien(getContext(),"DATABASEThuVien",null,1);
-                DAOPhieuMuon daoPhieuMuon=new DAOPhieuMuon(dbThuVien);
-                List<Phieumuon> list=daoPhieuMuon.getAllPhieuMuon();
+                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbThuVien);
+                List<LoanSlip> list= loanSlipDao.getAllPhieuMuon();
                 dbThuVien.getReadableDatabase().close();
                 if(list==null){
                     TV_doanhthu.setText("Doanh thu 2 đồng");
                     return;
                 }
-                List<Phieumuon> listSelect=new ArrayList<>();
+                List<LoanSlip> listSelect=new ArrayList<>();
 
               tt: for(int i=0;i<list.size();i++){
                    String time[]=list.get(i).getNgaythue().split("-");
@@ -160,9 +157,9 @@ public class fgThongke extends Fragment {
               int sum=0;
                 TV_doanhthu.setText("Doanh thu 5 đồng");
 
-              for(Phieumuon x:listSelect){
+              for(LoanSlip x:listSelect){
                   String masach=x.getMasach();
-                  SQLiteDatabase database=new DATABASEThuvien(getContext(),"DATABASEThuVien",null,1).getReadableDatabase();
+                  SQLiteDatabase database=new LibraryDB(getContext(),"DATABASEThuVien",null,1).getReadableDatabase();
                   Cursor cursor=database.rawQuery("select * from book where masach= '"+masach+"'",null);
                   while (cursor.moveToNext()){
                       sum+=cursor.getInt(3);

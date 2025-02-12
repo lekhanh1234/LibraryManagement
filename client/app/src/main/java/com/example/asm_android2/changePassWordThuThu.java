@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountAdminLogin;
-import com.example.asm_android2.Account.AccountThuthu;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.OperationSever.prepareMessengerPost;
+import com.example.asm_android2.modal.Admin;
+import com.example.asm_android2.account.AccountThuthu;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.ServerService.PrepareMethod;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -39,7 +39,7 @@ public class changePassWordThuThu extends AppCompatActivity {
                 a.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(checkInternet.isNetworkAvailable(changePassWordThuThu.this)==false){
+                        if(NetworkUtils.isNetworkAvailable(changePassWordThuThu.this)==false){
                             Toast.makeText(changePassWordThuThu.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -50,15 +50,13 @@ public class changePassWordThuThu extends AppCompatActivity {
                             Toast.makeText(changePassWordThuThu.this,"Thông tin trống !",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        List<AccountThuthu> list=AccountAdminLogin.getListAccountThuThu();
+                        List<AccountThuthu> list= Admin.getListAccountThuThu();
                        for(int i=0;i<list.size();i++){
                            if(dinhdanhThuthu.equals(list.get(i).getMadinhdanh())) break;
                            if(i==list.size()-1){
                                Toast.makeText(changePassWordThuThu.this,"Định danh thủ thư không tồn tại !",Toast.LENGTH_SHORT).show();
                                return;
                            }
-                           // thu thu ton tai
-
                        }
                         if(newPassWord.equals(newPassWord2)==false){
                             Toast.makeText(changePassWordThuThu.this,"Mật khẩu không khớp !",Toast.LENGTH_SHORT).show();
@@ -68,7 +66,7 @@ public class changePassWordThuThu extends AppCompatActivity {
                             Toast.makeText(changePassWordThuThu.this,"Mật khẩu phải ít nhất 5 kí tự !",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        HttpURLConnection connection= prepareMessengerPost.prepareMessenger("http://192.168.43.189:8080/sever_messenger/changePassWordAccountThuThu");
+                        HttpURLConnection connection= PrepareMethod.createPostConnection("http://192.168.43.189:8080/sever_messenger/changePassWordAccountThuThu");
                         try {
                             OutputStream os=connection.getOutputStream();
                             os.write(("newpassword="+newPassWord+"&dinhdanh="+dinhdanhThuthu).getBytes());

@@ -1,7 +1,7 @@
-package com.example.asm_android2.OperationSever;
+package com.example.asm_android2.ServerService;
 
-import com.example.asm_android2.Account.AccountAdminLogin;
-import com.example.asm_android2.Account.AccountThuthu;
+import com.example.asm_android2.modal.Admin;
+import com.example.asm_android2.account.AccountThuthu;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -44,7 +44,7 @@ public class insertDataToSever {
             a.join();
         } catch (Exception e){}
         if(idThuThuFromSever[0]==-1) return false;
-        AccountAdminLogin.getListAccountThuThu().add(new AccountThuthu(idThuThuFromSever[0],username,password,name,dinhdanh));
+        Admin.getListAccountThuThu().add(new AccountThuthu(idThuThuFromSever[0],username,password,name,dinhdanh));
         return true;
     }
 

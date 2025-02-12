@@ -2,7 +2,6 @@ package com.example.asm_android2.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,39 +11,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asm_android2.OperationSever.checkInternet;
+import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.R;
-import com.example.asm_android2.dataBase.DAOPhieuMuon;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Book;
-import com.example.asm_android2.login_thuthu;
+import com.example.asm_android2.dao.LoanSlipDAO;
+import com.example.asm_android2.dao.BookDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.Book;
 
 import java.util.List;
 
 public class adapterBook extends BaseAdapter {
-
     Context context;
-    List<Book> listbook;
-    DATABASEThuvien db;
-    DAOSach daoSach;
-
-    public adapterBook(Context context) {
+    List<Book> bookList;
+    public adapterBook(Context context,List<Book> bookList){
         this.context = context;
-
+        this.bookList = bookList;
     }
 
     @Override
     public int getCount() {
-        db=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-        daoSach=new DAOSach(db);
-        listbook=daoSach.getAllSach();
-        if(listbook==null) {
-            db.getReadableDatabase().close();
+        if(bookList==null) {
             return 0;
         }
-        db.getReadableDatabase().close();
-        return listbook.size();
+        return bookList.size();
     }
 
     @Override
@@ -61,7 +50,7 @@ public class adapterBook extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
         convertView=layoutInflater.inflate(R.layout.info_book,null);
-            Book book=listbook.get(position);
+            Book book=bookList.get(position);
             TextView a=convertView.findViewById(R.id.TVidsach);
             a.setText("mã sách :"+book.getMasach());
             TextView b=convertView.findViewById(R.id.TVtensach);
@@ -74,16 +63,16 @@ public class adapterBook extends BaseAdapter {
             IMG_deleteSach.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(checkInternet.isNetworkAvailable(context)==false){
+                    if(NetworkUtils.isNetworkAvailable(context)==false){
                         Toast.makeText(context,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    DATABASEThuvien databaseThuvien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-                    DAOPhieuMuon daoPhieuMuon=new DAOPhieuMuon(databaseThuvien);
-                    DAOSach daoSach=new DAOSach(databaseThuvien);
-                    int idBook=daoSach.getIdByMaSach(book.getMasach());
+                    LibraryDB libraryDB =new LibraryDB(context,"DATABASEThuVien",null,1);
+                    LoanSlipDAO loanSlipDao =new LoanSlipDAO(libraryDB);
+                    BookDAO bookDao =new BookDAO(libraryDB);
+                    int idBook= bookDao.getIdByMaSach(book.getMasach());
                     Log.d("id ma sach can xoa", "onClick: ");
-                    if(daoPhieuMuon.checkPhieuMuonByIdBook(idBook)==true){
+                    if(loanSlipDao.checkPhieuMuonByIdBook(idBook)==true){
                         Toast.makeText(context,"THAO TAC KHONG THANH CONG ! SACH DANG NAM TRONG DANH MUC PHIEU MU0N",Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -95,9 +84,9 @@ public class adapterBook extends BaseAdapter {
         return convertView;
     }
     public void deleteSach(int idBook){
-        DATABASEThuvien dbThuVien=new DATABASEThuvien(context,"DATABASEThuVien",null,1);
-        DAOSach daoSach=new DAOSach(dbThuVien);
-        daoSach.deleteBookById(idBook);
+        LibraryDB dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
+        BookDAO bookDao =new BookDAO(dbThuVien);
+        bookDao.deleteBookById(idBook);
         dbThuVien.getWritableDatabase().close();
     }
 }

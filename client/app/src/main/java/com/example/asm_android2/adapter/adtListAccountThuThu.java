@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.asm_android2.Account.AccountAdminLogin;
-import com.example.asm_android2.Account.AccountThuthu;
+import com.example.asm_android2.modal.Admin;
+import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.R;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class adtListAccountThuThu extends BaseAdapter {
 
     @Override
     public int getCount() {
-        this.listAccountThuThu = AccountAdminLogin.getListAccountThuThu();
+        this.listAccountThuThu = Admin.getListAccountThuThu();
         return listAccountThuThu.size();
     }
 

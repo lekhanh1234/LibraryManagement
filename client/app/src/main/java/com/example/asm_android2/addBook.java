@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountThuThuLogin;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.dataBase.DAOLoaiSach;
-import com.example.asm_android2.dataBase.DAOSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Book;
-import com.example.asm_android2.infoManageThuThu.Loaisach;
+import com.example.asm_android2.modal.Librarian;
+import com.example.asm_android2.ServerService.NetworkUtils;
+import com.example.asm_android2.dao.CategoryDAO;
+import com.example.asm_android2.dao.BookDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.Book;
+import com.example.asm_android2.modal.Category;
 
 import java.util.List;
 
@@ -44,8 +42,8 @@ public class addBook extends AppCompatActivity {
         EditText EDT_giaThue=findViewById(R.id.EDT_giaThue);
         Spinner spinner=(Spinner)findViewById(R.id.spinner);
 
-        DAOLoaiSach daoLoaiSach=new DAOLoaiSach(new DATABASEThuvien(this,"DATABASEThuVien",null,1));
-        List<Loaisach> listLoaiSach=daoLoaiSach.getAllLoaiSach();
+        CategoryDAO categoryDao =new CategoryDAO(new LibraryDB(this,"DATABASEThuVien",null,1));
+        List<Category> listLoaiSach= categoryDao.getAllLoaiSach();
         String listNameCatoloryBook[]=null;
         if(listLoaiSach.size()!=0){
             listNameCatoloryBook=new String[listLoaiSach.size()];
@@ -88,7 +86,7 @@ public class addBook extends AppCompatActivity {
         BTN_addBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(addBook.this)==false){
+                if(NetworkUtils.isNetworkAvailable(addBook.this)==false){
                     Toast.makeText(addBook.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -114,9 +112,9 @@ public class addBook extends AppCompatActivity {
                     return;
                 }
 
-                DATABASEThuvien databaseThuvien=new DATABASEThuvien(addBook.this,"DATABASEThuVien",null,1);
-                boolean ketqua= new DAOSach(databaseThuvien).insertBook(new Book(masach,tensach,giathue,tenloaisach, AccountThuThuLogin.getId()));
-                databaseThuvien.getWritableDatabase().close();
+                LibraryDB libraryDB =new LibraryDB(addBook.this,"DATABASEThuVien",null,1);
+                boolean ketqua= new BookDAO(libraryDB).insertBook(new Book(masach,tensach,giathue,tenloaisach, Librarian.getId()));
+                libraryDB.getWritableDatabase().close();
                 Log.d("hamfinish duoc goi", "onClick: ");
                 finish();
             }

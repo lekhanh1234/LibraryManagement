@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.asm_android2.Account.AccountThuThuLogin;
-import com.example.asm_android2.OperationSever.checkInternet;
-import com.example.asm_android2.OperationSever.insertDataToSever;
+import com.example.asm_android2.modal.Librarian;
+import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.adapter.adapterQuanliloaisach;
-import com.example.asm_android2.dataBase.DAOLoaiSach;
-import com.example.asm_android2.dataBase.DATABASEThuvien;
-import com.example.asm_android2.infoManageThuThu.Loaisach;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.example.asm_android2.dao.CategoryDAO;
+import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.modal.Category;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,7 +96,7 @@ public class fgQuanliloaisach extends Fragment {
         BTN_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInternet.isNetworkAvailable(getContext())==false){
+                if(NetworkUtils.isNetworkAvailable(getContext())==false){
                     Toast.makeText(getContext(),"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -110,10 +104,10 @@ public class fgQuanliloaisach extends Fragment {
                 String masach=EDT_maSach.getText().toString().trim();
                 if(nameCatoloryBook.length()==0) return;
                 if(masach.length()==0) return;
-                DATABASEThuvien dbThuVien=new DATABASEThuvien(getContext(),"DATABASEThuVien",null,1);
-                DAOLoaiSach daoLoaiSach=new DAOLoaiSach(dbThuVien);
+                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                CategoryDAO categoryDao =new CategoryDAO(dbThuVien);
 
-                boolean resuft=daoLoaiSach.insertLoaisach(new Loaisach(masach,nameCatoloryBook,AccountThuThuLogin.getId()));
+                boolean resuft= categoryDao.insertCategory(new Category(masach,nameCatoloryBook, Librarian.getId()));
                 if(resuft==false){
                     Toast.makeText(getContext(),"Thao tác không thành công !",Toast.LENGTH_SHORT).show();
                     dbThuVien.getWritableDatabase().close();
