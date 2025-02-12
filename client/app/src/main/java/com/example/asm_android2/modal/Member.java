@@ -2,15 +2,15 @@ package com.example.asm_android2.modal;
 
 public class Member {
     private int idMember;
-    private String madinhdanh;
-    private String nameMember;
-    private String nameThuthu;
+    private String dinhdanh;
+    private String memberName;
+    private String librarianName;
 
-    public Member(int idMember, String madinhdanh, String nameMember, String nameThuthu) {
+    public Member(int idMember, String dinhdanh, String memberName, String librarianName) {
         this.idMember = idMember;
-        this.madinhdanh = madinhdanh;
-        this.nameMember = nameMember;
-        this.nameThuthu = nameThuthu;
+        this.dinhdanh = dinhdanh;
+        this.memberName = memberName;
+        this.librarianName = librarianName;
     }
 
     public int getIdMember() {
@@ -21,27 +21,27 @@ public class Member {
         this.idMember = idMember;
     }
 
-    public String getMadinhdanh() {
-        return madinhdanh;
+    public String getDinhdanh() {
+        return dinhdanh;
     }
 
-    public void setMadinhdanh(String madinhdanh) {
-        this.madinhdanh = madinhdanh;
+    public void setDinhdanh(String dinhdanh) {
+        this.dinhdanh = dinhdanh;
     }
 
-    public String getNameMember() {
-        return nameMember;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setNameMember(String nameMember) {
-        this.nameMember = nameMember;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
-    public String getNameThuthu() {
-        return nameThuthu;
+    public String getLibrarianName() {
+        return librarianName;
     }
 
-    public void setNameThuthu(String nameThuthu) {
-        this.nameThuthu = nameThuthu;
+    public void setLibrarianName(String librarianName) {
+        this.librarianName = librarianName;
     }
 }
