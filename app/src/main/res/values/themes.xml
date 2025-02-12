@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Asm_android2" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Asm_android2" parent="Base.Theme.Asm_android2" />
+    <style name="style_SignUp" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="style_form_main" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="suportActionBar" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+</resources>

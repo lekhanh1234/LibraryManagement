@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img"
+    tools:context=".login_thuthu">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/roundedImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="252dp"
+        android:text="User name đăng nhập"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="184dp"
+        android:text="Đăng nhập với tư cách admin"
+        android:textColor="#2196F3"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_nameUser"
+        android:layout_width="322dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:maxLines="1"
+        android:ems="10"
+        android:textSize="22dp"
+        android:text=""
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/edt_passWord"
+        android:layout_width="322dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:maxLines="1"
+        android:ems="10"
+        android:textSize="22dp"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="128dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="356dp"
+        android:text="Pass word"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_loGin"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="30dp"
+        android:text="Login"
+        android:backgroundTint="#EA5050"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_passWord" />
+
+    <TextView
+        android:id="@+id/txt_forgot_password2"
+        android:layout_width="192dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="forgot password"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_loGin" />
+    <TextView
+        android:id="@+id/dont_have_acount"
+        android:layout_width="192dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="Don't have an account?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_loGin" />
+
+    <TextView
+        android:id="@+id/txt_goToSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="Sign up"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/dont_have_acount"
+        app:layout_constraintTop_toBottomOf="@+id/btn_loGin" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="254dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="56dp"
+        android:text="quản lí thư viện"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/roundedImageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
