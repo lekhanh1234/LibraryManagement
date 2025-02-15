@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         >
         <ListView
-            android:id="@+id/LV_quanliloaisach"
+            android:id="@+id/LV_categoryManager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
@@ -25,7 +25,7 @@
         </ListView>
 
         <Button
-            android:id="@+id/BTN_addCatoloryBook"
+            android:id="@+id/BTN_addCategoryBook"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="16dp"
@@ -36,20 +36,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/CL_addBook"
+        android:id="@+id/CL_addCategory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#B1AFAF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone">
-
         <EditText
-            android:id="@+id/EDT_addCatoloryBook"
+            android:id="@+id/EDT_categoryName"
             android:layout_width="303dp"
             android:layout_height="53dp"
             android:layout_marginStart="52dp"
@@ -61,21 +57,19 @@
             android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <EditText
-            android:id="@+id/EDT_maSach"
+            android:id="@+id/EDT_bookCode"
             android:layout_width="303dp"
             android:layout_height="53dp"
             android:layout_marginStart="52dp"
             android:layout_marginTop="196dp"
             android:background="@color/white"
             android:ems="10"
-            android:hint="Mã sách"
+            android:hint="Mã loại sách"
             android:inputType="text"
             android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <Button
             android:id="@+id/BTN_confirmAddCatoloryBook"
             android:layout_width="200dp"
@@ -87,7 +81,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.582"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EDT_addCatoloryBook" />
+            app:layout_constraintTop_toBottomOf="@+id/EDT_categoryName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

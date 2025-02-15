@@ -15,7 +15,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="48dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/anhthuvien"
+        android:src="@drawable/image_library"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_oval="true" />

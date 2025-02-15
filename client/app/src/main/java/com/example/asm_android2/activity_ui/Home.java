@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -36,16 +35,12 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_from_main);
-        Intent intent=getIntent();
-
+        setContentView(R.layout.activity_main);
         DrawerLayout drawerLayout = findViewById(R.id.drawrlayout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Quản lí Phiếu mượn");
@@ -94,8 +89,6 @@ public class Home extends AppCompatActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout,new fgLoanSlipManager()).commit();
     }
-
-
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -103,11 +96,6 @@ public class Home extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-      //  db.execSQL("create table productOfAccount(id INTEGER PRIMARY KEY autoincrement ,
-    //  nameProduct nvarchar(50) not null ,price int not null,amount int not null)");
-
-
     @Override
     public void finish() {
         super.finish();

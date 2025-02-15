@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asm_android2.R;
+import com.example.asm_android2.dao.BookDAO;
 import com.example.asm_android2.dao.LoanSlipDAO;
 import com.example.asm_android2.dao.LibraryDB;
 import com.example.asm_android2.modal.LoanSlip;
@@ -78,17 +79,17 @@ public class fgStatistical extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fg_thongke, container, false);
-        EditText EDT_time_start = view.findViewById(R.id.EDT_thoigian_start);
-        EditText EDT_time_end = view.findViewById(R.id.EDT_thoigian_ketthuc);
-        Button BT_thongke = view.findViewById(R.id.BTN_thongke);
-        TextView TV_doanhthu=view.findViewById(R.id.TV_doanhthu);
-        BT_thongke.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_fg_statistical, container, false);
+        EditText EDT_date_start = view.findViewById(R.id.EDT_date_start);
+        EditText EDT_date_end = view.findViewById(R.id.EDT_date_end);
+        Button BTN_statistical = view.findViewById(R.id.BTN_statistical);
+        TextView TV_statistical=view.findViewById(R.id.TV_statistical);
+        BTN_statistical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String time_start = EDT_time_start.getText().toString();
-                String time_end = EDT_time_end.getText().toString();
+                String time_start = EDT_date_start.getText().toString();
+                String time_end = EDT_date_end.getText().toString();
                 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 DateTimeFormatter alternateDateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
                 try {
@@ -105,8 +106,6 @@ public class fgStatistical extends Fragment {
                     }
 
                 }
-                TV_doanhthu.setText("Doanh thu 1 đồng");
-
                 String s1[]=time_start.split("-");
                 String s2[]=time_end.split("-");
                 Log.d("value s1", "onClick: "+s1[0]+"-"+s1[1]+"-"+s1[2]);
@@ -117,23 +116,18 @@ public class fgStatistical extends Fragment {
                         if(Integer.parseInt(s1[2])>Integer.parseInt(s2[2])) return;
                     }
                 }
-
-
-                TV_doanhthu.setText("Doanh thu 10 đồng");
-
-
-                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
-                LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbThuVien);
-                List<LoanSlip> list= loanSlipDao.getAllPhieuMuon();
-                dbThuVien.getReadableDatabase().close();
+                LibraryDB dbLibrary=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbLibrary);
+                List<LoanSlip> list= loanSlipDao.getAllLoanSlip();
+                dbLibrary.getReadableDatabase().close();
                 if(list==null){
-                    TV_doanhthu.setText("Doanh thu 2 đồng");
+                 //   TV_statistical.setText("Doanh thu 2 đồng");
                     return;
                 }
                 List<LoanSlip> listSelect=new ArrayList<>();
 
               tt: for(int i=0;i<list.size();i++){
-                   String time[]=list.get(i).getNgaythue().split("-");
+                   String time[]=list.get(i).getRentalDate().split("-");
                    Log.d("nam thang ngay", time[0]+"-"+time[1]+"-"+time[2]);
                    if(Integer.parseInt(time[0])>Integer.parseInt(s2[0])) continue;
                    if(Integer.parseInt(time[0])==Integer.parseInt(s2[0])){  // kiem tra nam co <= nam lua chon ->ket thuc
@@ -142,7 +136,6 @@ public class fgStatistical extends Fragment {
                            if(Integer.parseInt(time[2])>Integer.parseInt(s2[2])) continue tt;
                         }
                    }
-                  TV_doanhthu.setText("Doanh thu 3 đồng");
                   if(Integer.parseInt(time[0])<Integer.parseInt(s1[0])) continue;
                   if(Integer.parseInt(time[0])==Integer.parseInt(s1[0])){  // kiem tra nam co <= nam lua chon ->ket thuc
                       if(Integer.parseInt(time[1])<Integer.parseInt(s1[1])) continue tt;
@@ -150,25 +143,22 @@ public class fgStatistical extends Fragment {
                           if(Integer.parseInt(time[2])<Integer.parseInt(s1[2])) continue tt;
                       }
                   }
-                  TV_doanhthu.setText("Doanh thu 4 đồng");
                   listSelect.add(list.get(i));
 
                }
                Toast.makeText(getContext(),"size : "+listSelect.size(),Toast.LENGTH_SHORT).show();
               int sum=0;
-                TV_doanhthu.setText("Doanh thu 5 đồng");
+             //   TV_statistical.setText("Doanh thu 5 đồng");
 
               for(LoanSlip x:listSelect){
-                  String masach=x.getMasach();
+                  String bookCode= new BookDAO(dbLibrary).getBookCodeById(x.getIdBook());
                   SQLiteDatabase database=new LibraryDB(getContext(),"DATABASEThuVien",null,1).getReadableDatabase();
-                  Cursor cursor=database.rawQuery("select * from book where masach= '"+masach+"'",null);
+                  Cursor cursor=database.rawQuery("select * from book where bookCode= '"+bookCode+"'",null);
                   while (cursor.moveToNext()){
                       sum+=cursor.getInt(3);
                   }
               }
-                TV_doanhthu.setText("Doanh thu "+sum+" đồng");
-
-
+                TV_statistical.setText("Doanh thu "+sum+" đồng");
             }
         });
         return view;

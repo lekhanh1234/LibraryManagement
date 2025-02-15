@@ -39,12 +39,13 @@ public class MemberDAO {
         return list;
     }
 
-    public boolean insertMember(String dinhdanh, String memberName){
+    public int insertMember(String dinhdanh, String memberName){
         SQLiteDatabase db=dbThuVien.getWritableDatabase();
         ContentValues values = new ContentValues();
         int idMember[] = new int[1];
-        if( (idMember[0] = getIdByDinhdanh(dinhdanh)) ==-1) { // -1 k co member ton tai
-            Thread addMember = new Thread(new Runnable() {
+        idMember[0] = getIdByDinhdanh(dinhdanh);
+        if(idMember[0] ==-1){// -1 k co member ton tai
+        Thread addMember = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -68,14 +69,13 @@ public class MemberDAO {
                 addMember.join();
             } catch (Exception e) {
             }
+            values.put("id",idMember[0]);
+            values.put("dinhdanh",dinhdanh);
+            values.put("name",memberName);
+            values.put("idLibrarian", Librarian.getId());
+            db.insert("Member", null, values);
         }
-
-        values.put("id",idMember[0]);
-        values.put("dinhdanh",dinhdanh);
-        values.put("name",memberName);
-        values.put("idLibrarian", Librarian.getId());
-        db.insert("Member", null, values);
-        return true;
+        return idMember[0];
     }
     public String getNameById(int id){
         SQLiteDatabase db=dbThuVien.getReadableDatabase();

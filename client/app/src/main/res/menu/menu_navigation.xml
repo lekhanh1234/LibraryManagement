@@ -9,7 +9,7 @@
 
     <item android:id="@+id/itemNV_quanliloaisach"
         android:title="Quản lí loại sách"
-        android:icon="@drawable/vector_loaisach"
+        android:icon="@drawable/vector_category"
         ></item>
     <item android:id="@+id/itemNV_quanlithanhvien"
         android:title="Quản lí thành viên"
@@ -18,18 +18,18 @@
     <group>
         <item android:id="@+id/itemNV_thongke"
             android:title="Thống kê"
-            android:icon="@drawable/vector_thongke">
+            android:icon="@drawable/vector_statistical">
             <menu>
        <item android:id="@+id/itemNV_top10sachmuon"
            android:title="10 sách mượn nhiều nhất"
-           android:icon="@drawable/topsachmuon"
+           android:icon="@drawable/top_book"
            />
        <item android:id="@+id/itemNV_doanhso"
            android:title="Doanh số"
-           android:icon="@drawable/vector_doanhso"></item>
+           android:icon="@drawable/vector_revenue"></item>
                 <item android:id="@+id/itemNV_doimatkhau"
                     android:title="Đổi mật khẩu"
-                    android:icon="@drawable/doimatkhau"></item>
+                    android:icon="@drawable/changePassword"></item>
    </menu>
         </item>
     </group>

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
-import com.example.asm_android2.adapter.adapterQuanliloaisach;
+import com.example.asm_android2.adapter.AdapterBookManager;
 import com.example.asm_android2.dao.CategoryDAO;
 import com.example.asm_android2.dao.LibraryDB;
 import com.example.asm_android2.modal.Category;
@@ -72,28 +72,27 @@ public class fgBookCategoryManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fg_quanliloaisach, container, false);
-        ListView listView=view.findViewById(R.id.LV_quanliloaisach);
-        adapterQuanliloaisach adapterQuanliloaisach=new adapterQuanliloaisach(getContext());
-        listView.setAdapter(adapterQuanliloaisach);
-        Button BTN_addBook=view.findViewById(R.id.BTN_addCatoloryBook);
-        ConstraintLayout CL_addBook=view.findViewById(R.id.CL_addBook);
-        CL_addBook.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_fg_category_manager, container, false);
+        ListView listView=view.findViewById(R.id.LV_categoryManager);
+        AdapterBookManager AdapterBookManager =new AdapterBookManager(getContext());
+        listView.setAdapter(AdapterBookManager);
+        Button BTN_addCategoryBook=view.findViewById(R.id.BTN_addCategoryBook);
+        ConstraintLayout CL_addCategory=view.findViewById(R.id.CL_addCategory);
+        CL_addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CL_addBook.setVisibility(View.GONE);
+                CL_addCategory.setVisibility(View.GONE);
             }
         });
-        BTN_addBook.setOnClickListener(new View.OnClickListener() {
+        BTN_addCategoryBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CL_addBook.setVisibility(View.VISIBLE);
+                CL_addCategory.setVisibility(View.VISIBLE);
             }
         });
-
         Button BTN_confirm=view.findViewById(R.id.BTN_confirmAddCatoloryBook);
-        EditText EDT_nameCatoloryBook=view.findViewById(R.id.EDT_addCatoloryBook);
-        EditText EDT_maSach=view.findViewById(R.id.EDT_maSach);
+        EditText EDT_categoryName=view.findViewById(R.id.EDT_categoryName);
+        EditText EDT_bookCode=view.findViewById(R.id.EDT_bookCode);
         BTN_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,25 +100,23 @@ public class fgBookCategoryManager extends Fragment {
                     Toast.makeText(getContext(),"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String nameCatoloryBook=EDT_nameCatoloryBook.getText().toString().trim();
-                String masach=EDT_maSach.getText().toString().trim();
-                if(nameCatoloryBook.length()==0) return;
-                if(masach.length()==0) return;
-                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
-                CategoryDAO categoryDao =new CategoryDAO(dbThuVien);
-
-                boolean resuft= categoryDao.insertCategory(new Category(masach,nameCatoloryBook, Librarian.getId()));
+                String categoryName=EDT_categoryName.getText().toString().trim();
+                String bookCode=EDT_bookCode.getText().toString().trim();
+                if(categoryName.length()==0) return;
+                if(bookCode.length()==0) return;
+                LibraryDB dbLibrary=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                CategoryDAO categoryDao =new CategoryDAO(dbLibrary);
+                boolean resuft= categoryDao.insertCategory(new Category(-1,bookCode,categoryName, Librarian.getId()));
                 if(resuft==false){
                     Toast.makeText(getContext(),"Thao tác không thành công !",Toast.LENGTH_SHORT).show();
-                    dbThuVien.getWritableDatabase().close();
+                    dbLibrary.getWritableDatabase().close();
                     return;
                 }
-                dbThuVien.getWritableDatabase().close();
-                adapterQuanliloaisach.notifyDataSetChanged();
-                CL_addBook.setVisibility(View.GONE);
+                dbLibrary.getWritableDatabase().close();
+                AdapterBookManager.notifyDataSetChanged();
+                CL_addCategory.setVisibility(View.GONE);
             }
         });
-
         return view;
     }
 }

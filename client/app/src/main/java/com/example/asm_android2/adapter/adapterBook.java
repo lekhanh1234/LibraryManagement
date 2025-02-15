@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.R;
+import com.example.asm_android2.dao.CategoryDAO;
 import com.example.asm_android2.dao.LoanSlipDAO;
 import com.example.asm_android2.dao.BookDAO;
 import com.example.asm_android2.dao.LibraryDB;
@@ -20,10 +21,10 @@ import com.example.asm_android2.modal.Book;
 
 import java.util.List;
 
-public class adapterBook extends BaseAdapter {
+public class AdapterBook extends BaseAdapter {
     Context context;
     List<Book> bookList;
-    public adapterBook(Context context,List<Book> bookList){
+    public AdapterBook(Context context, List<Book> bookList){
         this.context = context;
         this.bookList = bookList;
     }
@@ -52,15 +53,17 @@ public class adapterBook extends BaseAdapter {
         convertView=layoutInflater.inflate(R.layout.info_book,null);
             Book book=bookList.get(position);
             TextView a=convertView.findViewById(R.id.TVidsach);
-            a.setText("mã sách :"+book.getMasach());
+            a.setText("mã sách :"+book.getBookCode());
             TextView b=convertView.findViewById(R.id.TVtensach);
-            b.setText("Tên sách :"+book.getTenSach());
+            b.setText("Tên sách :"+book.getBookName());
             TextView c=convertView.findViewById(R.id.TVgiathue);
-            c.setText("giá thuê :"+book.getGiaThue());
+            c.setText("giá thuê :"+book.getPrice());
             TextView d=convertView.findViewById(R.id.TVloaisach);
-            d.setText("loại sách :"+book.getLoaiSach());
-            ImageButton IMG_deleteSach=convertView.findViewById(R.id.deleteSach);
-            IMG_deleteSach.setOnClickListener(new View.OnClickListener() {
+            LibraryDB db=new LibraryDB(context,"DATABASEThuVien",null,1);
+            String categoryName = new CategoryDAO(db).getNamebyId(book.getIdCategory());
+            d.setText("loại sách :"+categoryName);
+            ImageButton IMG_DeleteBook=convertView.findViewById(R.id.deleteBook);
+            IMG_DeleteBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(NetworkUtils.isNetworkAvailable(context)==false){
@@ -70,23 +73,23 @@ public class adapterBook extends BaseAdapter {
                     LibraryDB libraryDB =new LibraryDB(context,"DATABASEThuVien",null,1);
                     LoanSlipDAO loanSlipDao =new LoanSlipDAO(libraryDB);
                     BookDAO bookDao =new BookDAO(libraryDB);
-                    int idBook= bookDao.getIdByMaSach(book.getMasach());
+                    int idBook= bookDao.getIdByBookCode(book.getBookCode());
                     Log.d("id ma sach can xoa", "onClick: ");
-                    if(loanSlipDao.checkPhieuMuonByIdBook(idBook)==true){
+                    if(loanSlipDao.checkLoanSlipByIdBook(idBook)==true){
                         Toast.makeText(context,"THAO TAC KHONG THANH CONG ! SACH DANG NAM TRONG DANH MUC PHIEU MU0N",Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        deleteSach(idBook);
+                        deleteBook(idBook);
                         notifyDataSetChanged();
                     }
                 }
             });
         return convertView;
     }
-    public void deleteSach(int idBook){
-        LibraryDB dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
-        BookDAO bookDao =new BookDAO(dbThuVien);
+    public void deleteBook(int idBook){
+        LibraryDB dbLibrary=new LibraryDB(context,"DATABASEThuVien",null,1);
+        BookDAO bookDao =new BookDAO(dbLibrary);
         bookDao.deleteBookById(idBook);
-        dbThuVien.getWritableDatabase().close();
+        dbLibrary.getWritableDatabase().close();
     }
 }

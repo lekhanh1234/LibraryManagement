@@ -15,25 +15,25 @@ public class SelectLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_login);
-        Button BTN_admin_login=findViewById(R.id.BTN_admin_login);
-        Button BTN_thuthu_login=findViewById(R.id.BTN_thuthu_login);
+        Button BTN_loginAdmin=findViewById(R.id.BTN_loginAdmin);
+        Button BTN_loginLibrarian=findViewById(R.id.BTN_loginLibrarian);
         Button BTN_confirm=findViewById(R.id.BTN_confirm);
         int checkSelect[]=new int[1];
         checkSelect[0]=-1;
-        BTN_admin_login.setOnClickListener(new View.OnClickListener() {
+        BTN_loginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BTN_admin_login.setBackgroundColor(getResources().getColor(R.color.blue));
-                BTN_thuthu_login.setBackgroundColor(getResources().getColor(R.color.grey));
+                BTN_loginAdmin.setBackgroundColor(getResources().getColor(R.color.blue));
+                BTN_loginLibrarian.setBackgroundColor(getResources().getColor(R.color.grey));
                 checkSelect[0]=0;
             }
         });
 
-        BTN_thuthu_login.setOnClickListener(new View.OnClickListener() {
+        BTN_loginLibrarian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BTN_thuthu_login.setBackgroundColor(getResources().getColor(R.color.blue));
-                BTN_admin_login.setBackgroundColor(getResources().getColor(R.color.grey));
+                BTN_loginLibrarian.setBackgroundColor(getResources().getColor(R.color.blue));
+                BTN_loginAdmin.setBackgroundColor(getResources().getColor(R.color.grey));
                 checkSelect[0]=1;
             }
         });

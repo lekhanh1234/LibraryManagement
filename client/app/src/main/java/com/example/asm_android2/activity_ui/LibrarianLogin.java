@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.asm_android2.R;
+import com.example.asm_android2.ServerService.PrepareMethod;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.LibraryDB;
@@ -47,14 +48,9 @@ public class LibrarianLogin extends AppCompatActivity {
                     @Override
                     public void run() {
                         try{
-                            String Post_Url = "http://192.168.43.189:8080/sever_messenger/checkloginthuthu";
-                            URL urlSever_Post = null;
-                            urlSever_Post = new URL(Post_Url);
+                            String url = "http://192.168.43.189:8080/sever_messenger/checkloginthuthu";
                             String PARAMS = "usedname=" +edt_nameUser.getText().toString() + "&" + "password=" + edt_passWord.getText().toString();
-                            HttpURLConnection httpURLConnection = (HttpURLConnection) urlSever_Post.openConnection();
-                            httpURLConnection.setRequestMethod("POST");
-                            httpURLConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
-                            httpURLConnection.setDoOutput(true);
+                            HttpURLConnection httpURLConnection = PrepareMethod.createMethodConnection(url,"Post");
                             OutputStream os = httpURLConnection.getOutputStream();
                             os.write(PARAMS.getBytes());
                             Thread.sleep(300);
@@ -95,53 +91,52 @@ public class LibrarianLogin extends AppCompatActivity {
             LibrarianLogin.this.deleteDatabase("DATABASEThuVien");
             DataInputStream dataInputStream = new DataInputStream(is);
             String regex = "abcxyz987";
-            LibraryDB dbThuVien = new LibraryDB(LibrarianLogin.this, "DATABASEThuVien", null, 1);
-            SQLiteDatabase database = dbThuVien.getWritableDatabase();
+            LibraryDB dbLibrary = new LibraryDB(LibrarianLogin.this, "DATABASEThuVien", null, 1);
+            SQLiteDatabase database = dbLibrary.getWritableDatabase();
             {
                 int receivedNumber = dataInputStream.readInt();
-                byte[] ketquatableThuthu = new byte[receivedNumber];
-                is.read(ketquatableThuthu);
-                String ketquatruyvan = new String(ketquatableThuthu, StandardCharsets.UTF_8);
-                String arrrayDetached[] = ketquatruyvan.split(regex);
+                byte[] tableLibrarianResult = new byte[receivedNumber];
+                is.read(tableLibrarianResult);
+                String result = new String(tableLibrarianResult, StandardCharsets.UTF_8);
+                String arrrayDetached[] = result.split(regex);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("id", Integer.parseInt(arrrayDetached[0]));
                 contentValues.put("nameUser", arrrayDetached[1]);
-                contentValues.put("passWord", arrrayDetached[2]);
-                contentValues.put("nameThuThu", arrrayDetached[3]);
+                contentValues.put("password", arrrayDetached[2]);
+                contentValues.put("name", arrrayDetached[3]);
                 contentValues.put("dinhdanh", arrrayDetached[4]);
-                database.insert("accountThuthu", null, contentValues);
+                database.insert("librarian", null, contentValues);
                 Librarian.setId(Integer.parseInt(arrrayDetached[0]));
             }
             while (true) {
                 int recivednumber = dataInputStream.readInt();
                 if (recivednumber == 0) break;
-                byte[] byteTableLoaiSach = new byte[recivednumber];
-                is.read(byteTableLoaiSach);
-                //thuc hien them vao co so du lieu/ bang loai sach
-                String tableLoaiBook = new String(byteTableLoaiSach, StandardCharsets.UTF_8);
-                String valuetableLoaiBook[] = tableLoaiBook.split(regex);
+                byte[] byteCategoryTable = new byte[recivednumber];
+                is.read(byteCategoryTable);
+                String categoryTable = new String(byteCategoryTable, StandardCharsets.UTF_8);
+                String valuecategoryTable[] = categoryTable.split(regex);
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("id", Integer.parseInt(valuetableLoaiBook[0]));
-                contentValues.put("maloaisach", valuetableLoaiBook[1]);
-                contentValues.put("tenloaisach", valuetableLoaiBook[2]);
-                contentValues.put("idthuthu", Integer.parseInt(valuetableLoaiBook[3]));
-                database.insert("loaisach", null, contentValues);
+                contentValues.put("id", Integer.parseInt(valuecategoryTable[0]));
+                contentValues.put("categoryCode", valuecategoryTable[1]);
+                contentValues.put("categoryName", valuecategoryTable[2]);
+                contentValues.put("idLibrarian", Integer.parseInt(valuecategoryTable[3]));
+                database.insert("category", null, contentValues);
             }
 
             while (true) {
                 int recivedNumberTableBook = dataInputStream.readInt();
                 if (recivedNumberTableBook == 0) break;
-                byte[] byteTableSach = new byte[recivedNumberTableBook];
-                is.read(byteTableSach);
-                String tableBook = new String(byteTableSach, StandardCharsets.UTF_8);
+                byte[] byteBookTable = new byte[recivedNumberTableBook];
+                is.read(byteBookTable);
+                String tableBook = new String(byteBookTable, StandardCharsets.UTF_8);
                 String valuetableBook[] = tableBook.split(regex);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("id", Integer.parseInt(valuetableBook[0]));
-                contentValues.put("masach", valuetableBook[1]);
-                contentValues.put("name", valuetableBook[2]);
-                contentValues.put("giathue", Integer.parseInt(valuetableBook[3]));
-                contentValues.put("idLoaisach", Integer.parseInt(valuetableBook[4]));
-                contentValues.put("idthuthu", Integer.parseInt(valuetableBook[5]));
+                contentValues.put("bookCode", valuetableBook[1]);
+                contentValues.put("bookName", valuetableBook[2]);
+                contentValues.put("price", Integer.parseInt(valuetableBook[3]));
+                contentValues.put("idCategory", Integer.parseInt(valuetableBook[4]));
+                contentValues.put("idLibrarian", Integer.parseInt(valuetableBook[5]));
                 database.insert("book", null, contentValues);
             }
             while (true) {
@@ -149,32 +144,32 @@ public class LibrarianLogin extends AppCompatActivity {
                 if (recivedNumber == 0) break;
                 byte[] byteMember = new byte[recivedNumber];
                 is.read(byteMember);
-                String ketquatruyvansever = new String(byteMember, StandardCharsets.UTF_8);
-                String arrayKetqua[] = ketquatruyvansever.split(regex);
+                String result = new String(byteMember, StandardCharsets.UTF_8);
+                String arrayKetqua[] = result.split(regex);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("id", Integer.parseInt(arrayKetqua[0]));
-                contentValues.put("madinhdanh", arrayKetqua[1]);
+                contentValues.put("dinhdanh", arrayKetqua[1]);
                 contentValues.put("name", arrayKetqua[2]);
-                contentValues.put("idthuthu", Integer.parseInt(arrayKetqua[3]));
-                database.insert("memberThuthu", null, contentValues);
+                contentValues.put("idLibrarian", Integer.parseInt(arrayKetqua[3]));
+                database.insert("member", null, contentValues);
             }
             while (true) {
                 int recivedNumber = dataInputStream.readInt();
                 if (recivedNumber == 0) break;
-                byte[] bytePhieumuon = new byte[recivedNumber];
-                is.read(bytePhieumuon);
-                String ketquatruyvansever = new String(bytePhieumuon, StandardCharsets.UTF_8);
+                byte[] byteLoanSlipTable = new byte[recivedNumber];
+                is.read(byteLoanSlipTable);
+                String ketquatruyvansever = new String(byteLoanSlipTable, StandardCharsets.UTF_8);
                 String arrayKetqua[] = ketquatruyvansever.split(regex);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("id", Integer.parseInt(arrayKetqua[0]));
-                contentValues.put("maphieu", arrayKetqua[1]);
-                contentValues.put("idthuthu", Integer.parseInt(arrayKetqua[2]));
+                contentValues.put("receiptNumber", arrayKetqua[1]);
+                contentValues.put("idLibrarian", Integer.parseInt(arrayKetqua[2]));
                 contentValues.put("idBook", Integer.parseInt(arrayKetqua[3]));
-                contentValues.put("id_member", Integer.parseInt(arrayKetqua[4]));
-                contentValues.put("tinhtrang", Integer.parseInt(arrayKetqua[5]));
-                contentValues.put("ngaythue", arrayKetqua[6]);
-                contentValues.put("thoihan", arrayKetqua[7]);
-                database.insert("phieumuon", null, contentValues);
+                contentValues.put("idMember", Integer.parseInt(arrayKetqua[4]));
+                contentValues.put("states", Integer.parseInt(arrayKetqua[5]));
+                contentValues.put("rentalDate", arrayKetqua[6]);
+                contentValues.put("deadline", arrayKetqua[7]);
+                database.insert("loanSlip", null, contentValues);
             }
             database.close();
             Intent a = new Intent(LibrarianLogin.this, Home.class);

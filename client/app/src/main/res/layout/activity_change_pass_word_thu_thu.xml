@@ -7,7 +7,7 @@
     tools:context=".activity_ui.AddLoanSlip">
 
     <EditText
-        android:id="@+id/EDT_dinhdanhThuthu"
+        android:id="@+id/EDT_LibrarianDinhDanh"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="134dp"
@@ -56,7 +56,7 @@
 
 
     <Button
-        android:id="@+id/BTN_confirmChangeAddThuThu"
+        android:id="@+id/BTN_confirmChange"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"

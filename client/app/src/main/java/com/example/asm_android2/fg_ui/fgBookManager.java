@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.example.asm_android2.R;
 import com.example.asm_android2.activity_ui.AddBook;
-import com.example.asm_android2.adapter.adapterBook;
+import com.example.asm_android2.adapter.AdapterBook;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +31,7 @@ public class fgBookManager extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private adapterBook adapterBook;
+    private AdapterBook adapterBook;
     public fgBookManager() {
         // Required empty public constructor
     }
@@ -67,13 +67,12 @@ public class fgBookManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_fg_quanlisach, container, false);
-        ListView listViewsach=view.findViewById(R.id.lVquanlisach);
-        adapterBook=new adapterBook(getContext());
-        listViewsach.setAdapter(adapterBook);
-
-        Button BTN_addCatoloryBook =view.findViewById(R.id.BTN_addBook);
-        BTN_addCatoloryBook.setOnClickListener(new View.OnClickListener() {
+        View view= inflater.inflate(R.layout.fragment_fg_book_manager, container, false);
+        ListView lV_bookManager=view.findViewById(R.id.lV_bookManager);
+        adapterBook=new AdapterBook(getContext(),null);
+        lV_bookManager.setAdapter(adapterBook);
+        Button BTN_addBook =view.findViewById(R.id.BTN_addBook);
+        BTN_addBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), AddBook.class);

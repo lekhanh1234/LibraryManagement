@@ -14,6 +14,7 @@ import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Admin;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.ServerService.PrepareMethod;
+import com.example.asm_android2.modal.LibrarianAdminControl;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -25,11 +26,11 @@ public class ChangeAdminPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_pass_word_thu_thu);
-        EditText EDT_dinhdanhThuthu=findViewById(R.id.EDT_dinhdanhThuthu);
+        EditText EDT_LibrarianDinhDanh=findViewById(R.id.EDT_LibrarianDinhDanh);
         EditText EDT_newPassWord=findViewById(R.id.EDT_newPassWord);
         EditText EDT_newPassWord2=findViewById(R.id.EDT_newPassWord2);
-        Button BTN_confirmChangeAddThuThu=findViewById(R.id.BTN_confirmChangeAddThuThu);
-        BTN_confirmChangeAddThuThu.setOnClickListener(new View.OnClickListener() {
+        Button BTN_confirmChange=findViewById(R.id.BTN_confirmChange);
+        BTN_confirmChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder a=new AlertDialog.Builder(ChangeAdminPassword.this);
@@ -43,16 +44,16 @@ public class ChangeAdminPassword extends AppCompatActivity {
                             Toast.makeText(ChangeAdminPassword.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        String dinhdanhThuthu=EDT_dinhdanhThuthu.getText().toString().trim();
+                        String LibrarianDinhDanh=EDT_LibrarianDinhDanh.getText().toString().trim();
                         String newPassWord=EDT_newPassWord.getText().toString().trim();
                         String newPassWord2=EDT_newPassWord2.getText().toString().trim();
-                        if(dinhdanhThuthu.length()==0||newPassWord.length()==0||newPassWord2.length()==0){
+                        if(LibrarianDinhDanh.length()==0||newPassWord.length()==0||newPassWord2.length()==0){
                             Toast.makeText(ChangeAdminPassword.this,"Thông tin trống !",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        List<AccountThuthu> list= Admin.getListAccountThuThu();
+                        List<LibrarianAdminControl> list= Admin.getLibrarianAdminControlList();
                        for(int i=0;i<list.size();i++){
-                           if(dinhdanhThuthu.equals(list.get(i).getMadinhdanh())) break;
+                           if(LibrarianDinhDanh.equals(list.get(i).getDinhdanh())) break;
                            if(i==list.size()-1){
                                Toast.makeText(ChangeAdminPassword.this,"Định danh thủ thư không tồn tại !",Toast.LENGTH_SHORT).show();
                                return;
@@ -66,10 +67,10 @@ public class ChangeAdminPassword extends AppCompatActivity {
                             Toast.makeText(ChangeAdminPassword.this,"Mật khẩu phải ít nhất 5 kí tự !",Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        HttpURLConnection connection= PrepareMethod.createPostConnection("http://192.168.43.189:8080/sever_messenger/changePassWordAccountThuThu");
+                        HttpURLConnection connection= PrepareMethod.createMethodConnection("http://192.168.43.189:8080/sever_messenger/changePassWordAccountThuThu","Post");
                         try {
                             OutputStream os=connection.getOutputStream();
-                            os.write(("newpassword="+newPassWord+"&dinhdanh="+dinhdanhThuthu).getBytes());
+                            os.write(("newpassword="+newPassWord+"&dinhdanh="+LibrarianDinhDanh).getBytes());
                             os.flush();
                             connection.getResponseCode();
                         }catch (Exception e){}

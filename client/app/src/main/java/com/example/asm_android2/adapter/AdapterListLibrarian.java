@@ -7,25 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.asm_android2.modal.Admin;
-import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.R;
-
+import com.example.asm_android2.modal.LibrarianAdminControl;
 import java.util.List;
 
-public class adtListAccountThuThu extends BaseAdapter {
-    private List<AccountThuthu> listAccountThuThu;
+public class AdapterListLibrarian extends BaseAdapter {
+    private List<LibrarianAdminControl> librarianList;
     private Context context;
-
-    public adtListAccountThuThu(Context context) {
+    public AdapterListLibrarian(Context context) {
         this.context = context;
     }
-
     @Override
     public int getCount() {
-        this.listAccountThuThu = Admin.getListAccountThuThu();
-        return listAccountThuThu.size();
+        this.librarianList = Admin.getLibrarianAdminControlList();
+        return librarianList.size();
     }
 
     @Override
@@ -41,15 +37,15 @@ public class adtListAccountThuThu extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
-        convertView=layoutInflater.inflate(R.layout.info_account_thuthu,null);
-        TextView TV_namethuthu=convertView.findViewById(R.id.TV_namethuthu);
+        convertView=layoutInflater.inflate(R.layout.info_librarian,null);
+        TextView TV_LibrarianName=convertView.findViewById(R.id.TV_LibrarianName);
         TextView TV_username=convertView.findViewById(R.id.TV_username);
         TextView TV_pass_word=convertView.findViewById(R.id.TV_pass_word);
         TextView TV_dinhdanh=convertView.findViewById(R.id.TV_dinhdanh);
-        TV_namethuthu.setText("Tên thủ thư :"+listAccountThuThu.get(position).getNameThuthu());
-        TV_username.setText("User name :"+listAccountThuThu.get(position).getName_user());
-        TV_pass_word.setText("Pass word :"+listAccountThuThu.get(position).getPassword_user());
-        TV_dinhdanh.setText("Định danh :"+listAccountThuThu.get(position).getMadinhdanh());
+        TV_LibrarianName.setText("Tên thủ thư :"+librarianList.get(position).getLibrarianName());
+        TV_username.setText("User name :"+librarianList.get(position).getUserName());
+        TV_pass_word.setText("Pass word :"+librarianList.get(position).getPassword());
+        TV_dinhdanh.setText("Định danh :"+librarianList.get(position).getDinhdanh());
         return convertView;
     }
 }

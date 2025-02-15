@@ -1,9 +1,7 @@
 package com.example.asm_android2.activity_ui;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,13 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.asm_android2.R;
+import com.example.asm_android2.dao.LibrarianDAO;
 import com.example.asm_android2.modal.Admin;
-import com.example.asm_android2.account.AccountThuthu;
 import com.example.asm_android2.ServerService.NetworkUtils;
-import com.example.asm_android2.ServerService.insertDataToSever;
-
+import com.example.asm_android2.modal.LibrarianAdminControl;
 import java.util.List;
 
 public class AddLibrarian extends AppCompatActivity {
@@ -29,20 +25,20 @@ public class AddLibrarian extends AppCompatActivity {
         ActionBar a=getSupportActionBar();
         a.setTitle("Thêm Thủ Thư");
         a.setDisplayHomeAsUpEnabled(true);
-        EditText EDT_nameThuThu=findViewById(R.id.EDT_nameThuThu);
-        EditText EDT_Username_thuthu=findViewById(R.id.EDT_Username_thuthu);
+        EditText EDT_LibrarianName=findViewById(R.id.EDT_LibrarianName);
+        EditText EDT_LibrarianUserName=findViewById(R.id.EDT_LibrarianUserName);
         EditText EDT_passWord=findViewById(R.id.EDT_passWord);
         EditText EDT_dinhDanh=findViewById(R.id.EDT_dinhDanh);
-        Button BTN_confirmAddThuThu=findViewById(R.id.BTN_confirmAddThuThu);
-        BTN_confirmAddThuThu.setOnClickListener(new View.OnClickListener() {
+        Button BTN_ConfirmAddLibrarian=findViewById(R.id.BTN_ConfirmAddLibrarian);
+        BTN_ConfirmAddLibrarian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(NetworkUtils.isNetworkAvailable(AddLibrarian.this)==false){
                     Toast.makeText(AddLibrarian.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String name=EDT_nameThuThu.getText().toString().trim();
-                String userName=EDT_Username_thuthu.getText().toString().trim();
+                String name=EDT_LibrarianName.getText().toString().trim();
+                String userName=EDT_LibrarianUserName.getText().toString().trim();
                 String passWord=EDT_passWord.getText().toString().trim();
                 String dinhdanh=EDT_dinhDanh.getText().toString().trim();
                 if(name.length()==0){
@@ -69,15 +65,15 @@ public class AddLibrarian extends AppCompatActivity {
                 }
 
                 // KIEM TRA DINH DANH VOI CAC TAI KHOAN THU THU CON LAI\
-                List<AccountThuthu> list= Admin.getListAccountThuThu();
-                for(AccountThuthu x: list){
-                    if(x.getMadinhdanh().equalsIgnoreCase(dinhdanh)){
+                List<LibrarianAdminControl> list= Admin.getLibrarianAdminControlList();
+                for(LibrarianAdminControl x: list){
+                    if(x.getDinhdanh().equalsIgnoreCase(dinhdanh)){
                         Toast.makeText(AddLibrarian.this,"MÃ ĐỊNH DANH THỦ THƯ TRÙNG LẶP",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
                 // TIENS HÀNH CẬP NHẬT DƯ LIEU TREN SEVER
-                boolean result=new insertDataToSever().insertAccountThuThuToSever(name,userName,passWord,dinhdanh);
+                boolean result=new LibrarianDAO(null).addLibrarianAccountToSever(name,userName,passWord,dinhdanh);
                 if(result==false){
                     Toast.makeText(AddLibrarian.this,"MÃ ĐỊNH DANH THỦ THƯ ĐÃ TỒN TẠI",Toast.LENGTH_SHORT).show();
                 }

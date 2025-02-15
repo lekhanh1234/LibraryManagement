@@ -6,7 +6,7 @@
     tools:context=".fg_ui.fgBookManager">
 
     <ListView
-        android:id="@+id/LVquanlithanhvien"
+        android:id="@+id/LV_topBook"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="8dp"

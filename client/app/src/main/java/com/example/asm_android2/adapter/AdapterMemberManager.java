@@ -17,16 +17,16 @@ import com.example.asm_android2.modal.LoanSlip;
 
 import java.util.List;
 
-public class adapterQuanlithanhvien extends BaseAdapter {
+public class AdapterMemberManager extends BaseAdapter {
     private Context context;
 
-    private LibraryDB dbThuVien;
+    private LibraryDB dbLibrary;
     private MemberDAO memberDAO;
     private List<Member> listMember;
-    public adapterQuanlithanhvien(Context context) {
+    public AdapterMemberManager(Context context) {
         this.context = context;
-        dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
-        memberDAO =new MemberDAO(dbThuVien);
+        dbLibrary=new LibraryDB(context,"DATABASEThuVien",null,1);
+        memberDAO =new MemberDAO(dbLibrary);
     }
 
     @Override
@@ -49,27 +49,27 @@ public class adapterQuanlithanhvien extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
-        convertView=layoutInflater.inflate(R.layout.member,null);
+        convertView=layoutInflater.inflate(R.layout.info_member,null);
         Member member=listMember.get(position);
             TextView a=convertView.findViewById(R.id.TVidmember);
-            a.setText("mã thành viên : "+member.getMadinhdanh());
+            a.setText("mã thành viên : "+member.getDinhdanh());
             TextView b=convertView.findViewById(R.id.TVtenthanhvien);
-            b.setText("Tên thành viên : "+member.getNameMember());
-            LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbThuVien);
-            List<LoanSlip> listPhieu= loanSlipDao.getAllPhieuMuon();
-            int tongsosach=0;
-            int sachchuatra=0;
+            b.setText("Tên thành viên : "+member.getMemberName());
+            LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbLibrary);
+            List<LoanSlip> listPhieu= loanSlipDao.getAllLoanSlip();
+            int bookAmount=0;
+            int booksNotReturned=0;
             if(listPhieu!=null)
              for(LoanSlip x:listPhieu){
-                if(x.getDinhdanhMember().equalsIgnoreCase(member.getMadinhdanh())) {
-                    tongsosach++;
-                    if(x.getTrangthai()==0) sachchuatra++;
+                if(new MemberDAO(dbLibrary).getDinhdanhById(x.getIdMember()).equalsIgnoreCase(member.getDinhdanh())) {
+                    bookAmount++;
+                    if(x.getStates()==0) booksNotReturned++;
                 }
             }
             TextView c=convertView.findViewById(R.id.TVsachdatra);
-            c.setText("số sách đã trả : "+(tongsosach-sachchuatra));
+            c.setText("số sách đã trả : "+(bookAmount-booksNotReturned));
             TextView d=convertView.findViewById(R.id.TVsosachdamuon);
-            d.setText("số sách đã mượn : "+tongsosach);
+            d.setText("số sách đã mượn : "+bookAmount);
         return convertView;
     }
 }

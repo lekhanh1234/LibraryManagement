@@ -1,8 +1,6 @@
 package com.example.asm_android2.activity_ui;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.asm_android2.R;
 import com.example.asm_android2.modal.Admin;
-import com.example.asm_android2.account.AccountThuthu;
-import com.example.asm_android2.ServerService.checkAccountAdmin;
+import com.example.asm_android2.ServerService.CheckAccountAdmin;
 import com.example.asm_android2.ServerService.NetworkUtils;
-
+import com.example.asm_android2.modal.LibrarianAdminControl;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -59,7 +55,7 @@ public class LoginAdmin extends AppCompatActivity {
     }
     public void loginAccountAdmin(String userName,String passWord){
         try{
-            HttpURLConnection httpURLConnection =new checkAccountAdmin().PrepareMessage(userName,passWord);
+            HttpURLConnection httpURLConnection =new CheckAccountAdmin().PrepareMessage(userName,passWord);
             int resultFromSever=httpURLConnection.getResponseCode();
             if(resultFromSever==404) {
                 handler.post(new Runnable() {
@@ -90,28 +86,28 @@ public class LoginAdmin extends AppCompatActivity {
                     String arrrayDetached[] = ketquatruyvan.split(regex);
                     Admin.setId(Integer.parseInt(arrrayDetached[0]));
                     Admin.setUserName(arrrayDetached[1]);
-                    Admin.setPassWord(arrrayDetached[2]);
-                    Admin.setNameAdmin(arrrayDetached[3]);
+                    Admin.setPassword(arrrayDetached[2]);
+                    Admin.setName(arrrayDetached[3]);
                     Admin.setDinhdanh(arrrayDetached[4]);
                 }
 
-                ArrayList<AccountThuthu> list=new ArrayList<>();
+                ArrayList<LibrarianAdminControl> list=new ArrayList<>();
                 while (true) {
                     int recivednumber = dataInputStream.readInt();
                     if(recivednumber==0) break;
                     byte[] byteTableThuThu=new byte[recivednumber];
                     is.read(byteTableThuThu);
-                    String tableThuThu=new String(byteTableThuThu,StandardCharsets.UTF_8);
-                    String valuetableThuThu[]=tableThuThu.split(regex);
-                    int idthuthu=Integer.parseInt(valuetableThuThu[0]);
-                    String username=valuetableThuThu[1];
-                    String password=valuetableThuThu[2];
-                    String nameThuthu=valuetableThuThu[3];
-                    String madinhdanh=valuetableThuThu[4];
-                    list.add(new AccountThuthu(idthuthu,username,password,nameThuthu,madinhdanh));
+                    String librarianTable=new String(byteTableThuThu,StandardCharsets.UTF_8);
+                    String valuelibrarianTable[]=librarianTable.split(regex);
+                    int idLibrarian=Integer.parseInt(valuelibrarianTable[0]);
+                    String username=valuelibrarianTable[1];
+                    String password=valuelibrarianTable[2];
+                    String nameThuthu=valuelibrarianTable[3];
+                    String madinhdanh=valuelibrarianTable[4];
+                    list.add(new LibrarianAdminControl(idLibrarian,username,password,nameThuthu,madinhdanh));
 
                 }
-                Admin.setListAccountThuThu(list);
+                Admin.setLibrarianAdminControlList(list);
                 Intent x=new Intent(LoginAdmin.this, HomeAdmin.class);
                 startActivity(x);
             }

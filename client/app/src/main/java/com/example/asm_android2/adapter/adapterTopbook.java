@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.asm_android2.R;
+import com.example.asm_android2.dao.BookDAO;
 import com.example.asm_android2.dao.LoanSlipDAO;
 import com.example.asm_android2.dao.LibraryDB;
 import com.example.asm_android2.modal.LoanSlip;
@@ -16,38 +17,38 @@ import com.example.asm_android2.modal.LoanSlip;
 import java.util.ArrayList;
 import java.util.List;
 
-public class adapterTopbook extends BaseAdapter {
+public class AdapterTopbook extends BaseAdapter {
     Context context;
     List<amountBook> list=new ArrayList<>();
 
-    public adapterTopbook(Context context) {
+    public AdapterTopbook(Context context) {
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        LibraryDB dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
-        LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbThuVien);
-        List<LoanSlip> listAllPhieu= loanSlipDao.getAllPhieuMuon();
+        LibraryDB dbLibrary=new LibraryDB(context,"DATABASEThuVien",null,1);
+        LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbLibrary);
+        List<LoanSlip> listAllPhieu= loanSlipDao.getAllLoanSlip();
         list.clear();
         if(listAllPhieu==null) return 0;
         for(LoanSlip x:listAllPhieu){
-            String maSach=x.getMasach();
-            String tenSach=x.getTensach();
+            String bookCode= new BookDAO(dbLibrary).getBookCodeById(x.getIdBook());
+            String bookName= new BookDAO(dbLibrary).getNameById(x.getIdBook());
             if(list.size()!=0) {
                 for (int i=0;i<list.size();i++) {
-                    if (list.get(i).maSach.equals(maSach)) {
+                    if (list.get(i).bookCode.equals(bookCode)) {
                         list.get(i).value++;
                         break;
                     }
                     if(i==list.size()-1){
-                        list.add(new amountBook(maSach,tenSach,1));
+                        list.add(new amountBook(bookCode,bookName,1));
                         break;
                     }
                 }
             }
             else{
-                list.add(new amountBook(maSach,tenSach,1));
+                list.add(new amountBook(bookCode,bookName,1));
             }
         }
         for(int i=0;i<list.size();i++){
@@ -59,8 +60,8 @@ public class adapterTopbook extends BaseAdapter {
                }
             }
         }
-        dbThuVien.getReadableDatabase().close();
-        dbThuVien.getWritableDatabase().close();
+        dbLibrary.getReadableDatabase().close();
+        dbLibrary.getWritableDatabase().close();
         if(list.size()>10) return 10;
         else return list.size();
     }
@@ -78,23 +79,23 @@ public class adapterTopbook extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
-        convertView=layoutInflater.inflate(R.layout.topsachmuon,null);
-        TextView TVnamebook=convertView.findViewById(R.id.TV_namebook);
-        TextView TVmaSach=convertView.findViewById(R.id.TV_maSach);
-        TextView TVsoluong=convertView.findViewById(R.id.TV_amount);
-            TVnamebook.setText(list.get(position).tensach);
-            TVmaSach.setText("Mã sách : "+list.get(position).maSach);
-            TVsoluong.setText("Số lượng : "+list.get(position).value);
-        return convertView;
+        convertView=layoutInflater.inflate(R.layout.book_top,null);
+        TextView TVBookName=convertView.findViewById(R.id.TV_namebook);
+        TextView TVBookCode=convertView.findViewById(R.id.TV_bookCode);
+        TextView TVAmount=convertView.findViewById(R.id.TV_amount);
+        TVBookName.setText(list.get(position).bookName);
+            TVBookCode.setText("Mã sách : "+list.get(position).bookCode);
+            TVAmount.setText("Số lượng : "+list.get(position).value);
+            return convertView;
     }
     class amountBook{
-        private String maSach;
-        private String tensach;
+        private String bookCode;
+        private String bookName;
         private int value;
 
-        public amountBook(String maSach,String tensach, int value) {
-            this.maSach = maSach;
-            this.tensach=tensach;
+        public amountBook(String bookCode,String bookName, int value) {
+            this.bookCode = bookCode;
+            this.bookName=bookName;
             this.value = value;
         }
     }

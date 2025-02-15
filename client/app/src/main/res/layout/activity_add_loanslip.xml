@@ -7,7 +7,7 @@
     tools:context=".activity_ui.AddLoanSlip">
 
     <EditText
-        android:id="@+id/EDT_maPhieu"
+        android:id="@+id/EDT_ReceiptNumber"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="104dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/EDT_tenThanhVien"
+        android:id="@+id/EDT_MemberName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="180dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/EDT_maThanhVien"
+        android:id="@+id/EDT_Dinhdanh"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="248dp"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner_listBook" />
 
     <EditText
-        android:id="@+id/EDT_thoiHan"
+        android:id="@+id/EDT_Deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -93,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner_listBook" />
 
     <Button
-        android:id="@+id/BTN_confirmAddPhieuMuon"
+        android:id="@+id/BTN_AddLoanSlip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -103,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/EDT_thoiHan" />
+        app:layout_constraintTop_toBottomOf="@id/EDT_Deadline" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

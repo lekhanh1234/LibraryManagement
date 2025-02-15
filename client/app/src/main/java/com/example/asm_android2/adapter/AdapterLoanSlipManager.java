@@ -17,30 +17,31 @@ import com.example.asm_android2.R;
 import com.example.asm_android2.dao.LoanSlipDAO;
 import com.example.asm_android2.dao.BookDAO;
 import com.example.asm_android2.dao.LibraryDB;
+import com.example.asm_android2.dao.MemberDAO;
 import com.example.asm_android2.modal.LoanSlip;
 
 import java.util.List;
 
-public class adapterQuanliphieumuon extends BaseAdapter {
+public class AdapterLoanSlipManager extends BaseAdapter {
     private Context context;
-    private LibraryDB dbThuVien;
+    private LibraryDB dbLibrary;
     private LoanSlipDAO loanSlipDao;
     private List<LoanSlip> listLoanSlip;
 
-    public adapterQuanliphieumuon(Context context) {
+    public AdapterLoanSlipManager(Context context) {
         this.context = context;
-        dbThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
-        loanSlipDao =new LoanSlipDAO(dbThuVien);
+        dbLibrary=new LibraryDB(context,"DATABASEThuVien",null,1);
+        loanSlipDao =new LoanSlipDAO(dbLibrary);
     }
 
     @Override
     public int getCount() {
-        listLoanSlip = loanSlipDao.getAllPhieuMuon();
+        listLoanSlip = loanSlipDao.getAllLoanSlip();
         if ((listLoanSlip ==null)) {
-            dbThuVien.getReadableDatabase().close();
+            dbLibrary.getReadableDatabase().close();
             return 0;
         }
-        dbThuVien.getReadableDatabase().close();
+        dbLibrary.getReadableDatabase().close();
         return listLoanSlip.size();
     }
 
@@ -58,14 +59,14 @@ public class adapterQuanliphieumuon extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LoanSlip loanSlip = listLoanSlip.get(position);
         LayoutInflater layoutInflater=((Activity)context).getLayoutInflater();
-        convertView=layoutInflater.inflate(R.layout.infophieumuon,null);
-        TextView TVidphieu=convertView.findViewById(R.id.TVidphieu);
-        TextView TVtensach=convertView.findViewById(R.id.TVtenloaisach);
-        TextView TVthanhvien=convertView.findViewById(R.id.TVthanhvien);
-        TextView TVgiathue=convertView.findViewById(R.id.TVgiathue);
-        TextView TVstatus=convertView.findViewById(R.id.TVstatus);
-        TextView TVngaythue=convertView.findViewById(R.id.TVngaythue);
-        TextView TVthoihan=convertView.findViewById(R.id.TVthoihan);
+        convertView=layoutInflater.inflate(R.layout.info_loanslip,null);
+        TextView TV_ReceiptNumber=convertView.findViewById(R.id.TVreceiptNumber);
+        TextView TV_BookName=convertView.findViewById(R.id.TVBookName);
+        TextView TV_Member =convertView.findViewById(R.id.TVthanhvien);
+        TextView TV_Price=convertView.findViewById(R.id.TVgiathue);
+        TextView TV_Status=convertView.findViewById(R.id.TVstatus);
+        TextView TV_RentalDate=convertView.findViewById(R.id.TVngaythue);
+        TextView TV_Dealline =convertView.findViewById(R.id.TVthoihan);
         ImageView IMG_setTrangthai=convertView.findViewById(R.id.IMG_select_trangthai);
         ImageButton IMG_deletePhieu=convertView.findViewById(R.id.IMG_deletePhieu);
         IMG_setTrangthai.setOnClickListener(new View.OnClickListener() {
@@ -73,29 +74,26 @@ public class adapterQuanliphieumuon extends BaseAdapter {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Chọn trạng thái");
-
                 String[] items = {"Đã trả", "Chưa trả"};
-
                 int checkedItem = -1;
-
                 builder.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        LibraryDB daoThuVien=new LibraryDB(context,"DATABASEThuVien",null,1);
-                        LoanSlipDAO loanSlipDao =new LoanSlipDAO(daoThuVien);
+                        LibraryDB dbLibrary=new LibraryDB(context,"DATABASEThuVien",null,1);
+                        LoanSlipDAO loanSlipDao =new LoanSlipDAO(dbLibrary);
                         switch (which) {
                             case 0:
-                                TVstatus.setText("Tính trạng : Đã trả");
+                                TV_Status.setText("Tính trạng : Đã trả");
                                 // da tra ung voi ma trang thai la 1
-                                loanSlipDao.thayDoiTrangThai(loanSlip.getMaphieu(),1);
+                                loanSlipDao.changeStates(loanSlip.getReceiptNumber(),1);
                                 break;
                             case 1:
-                                TVstatus.setText("Tính trạng : Chưa trả");
+                                TV_Status.setText("Tính trạng : Chưa trả");
                                 // chua tra ung voi ma trang thai la 0
-                                loanSlipDao.thayDoiTrangThai(loanSlip.getMaphieu(),0);
+                                loanSlipDao.changeStates(loanSlip.getReceiptNumber(),0);
                                 break;
                         }
-                        daoThuVien.getWritableDatabase().close();
+                        dbLibrary.getWritableDatabase().close();
                         dialog.dismiss();
                         notifyDataSetChanged();
                     }
@@ -106,16 +104,19 @@ public class adapterQuanliphieumuon extends BaseAdapter {
             }
         });
 
-            TVidphieu.setText("Mã phiếu : "+ loanSlip.getMaphieu());
-            TVtensach.setText("Tên sách : "+ loanSlip.getTensach());
-            TVthanhvien.setText("Thành viên : "+ loanSlip.getMember());
-            BookDAO bookDao =new BookDAO(dbThuVien);
-            int giathue= bookDao.getGiaTriTheoMaSach(loanSlip.getMasach());
-            TVgiathue.setText("Giá thuê : "+giathue);
-            String trangthai= loanSlip.getTrangthai()!=0 ? "Đã trả" : "Chưa trả";
-            TVstatus.setText("Tính trạng : "+trangthai);
-            TVngaythue.setText("Ngày thuê : "+ loanSlip.getNgaythue());
-            TVthoihan.setText("Thời hạn : "+ loanSlip.getThoihan());
+            TV_ReceiptNumber.setText("Mã phiếu : "+ loanSlip.getReceiptNumber());
+            String bookName = new BookDAO(dbLibrary).getNameById(loanSlip.getIdBook());
+            TV_BookName.setText("Tên sách : "+ bookName);
+            String memberName = new MemberDAO(dbLibrary).getNameById(loanSlip.getIdMember());
+            TV_Member.setText("Thành viên : "+ memberName);
+            BookDAO bookDao =new BookDAO(dbLibrary);
+            String bookCode = bookDao.getBookCodeById(loanSlip.getIdBook());
+            int price= bookDao.getPriceByBookCode(bookCode);
+            TV_Price.setText("Giá thuê : "+price);
+            String trangthai= loanSlip.getStates()!=0 ? "Đã trả" : "Chưa trả";
+            TV_Status.setText("Tính trạng : "+trangthai);
+            TV_RentalDate.setText("Ngày thuê : "+ loanSlip.getRentalDate());
+            TV_Dealline.setText("Thời hạn : "+ loanSlip.getDeadline());
 
         IMG_deletePhieu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +130,7 @@ public class adapterQuanliphieumuon extends BaseAdapter {
                 alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        loanSlipDao.deleteData(listLoanSlip.get(position).getMaphieu());
+                        loanSlipDao.deleteLoanSlip(listLoanSlip.get(position).getReceiptNumber());
                         notifyDataSetChanged();
                     }
                 });

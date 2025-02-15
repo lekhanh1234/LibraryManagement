@@ -7,7 +7,7 @@
     tools:context=".fg_ui.fgBookManager">
 
     <ListView
-        android:id="@+id/LVquanliphieumuon"
+        android:id="@+id/LV_loanSlip_Manager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
@@ -20,7 +20,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/BTN_addPhieu"
+        android:id="@+id/BTN_addLoanSlip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

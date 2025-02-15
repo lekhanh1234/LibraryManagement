@@ -8,13 +8,13 @@ public class Admin {
     private static String password;
     private static String name;
     private static String dinhdanh;
-    private static ArrayList<Librarian> list;
+    private static ArrayList<LibrarianAdminControl> list;
 
-    public static ArrayList<Librarian> getLibrarianList() {
+    public static ArrayList<LibrarianAdminControl> getLibrarianAdminControlList() {
         return list;
     }
 
-    public static void setLibrarianList(ArrayList<Librarian> list) {
+    public static void setLibrarianAdminControlList(ArrayList<LibrarianAdminControl> list) {
         Admin.list = list;
     }
 
@@ -50,11 +50,11 @@ public class Admin {
         Admin.name = name;
     }
 
-    public static ArrayList<Librarian> getList() {
+    public static ArrayList<LibrarianAdminControl> getList() {
         return list;
     }
 
-    public static void setList(ArrayList<Librarian> list) {
+    public static void setList(ArrayList<LibrarianAdminControl> list) {
         Admin.list = list;
     }
 

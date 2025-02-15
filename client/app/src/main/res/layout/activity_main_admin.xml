@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/LV_listThuthu"
+        android:id="@+id/LV_librarianList"
         android:layout_width="409dp"
         android:layout_height="match_parent"
         android:layout_marginTop="105dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/BTN_addThuthu"
+        android:id="@+id/BTN_addLibrarian"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="64dp"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/BTN_changePassWordThuThu"
+        android:id="@+id/BTN_changeLibrarianPassword"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="64dp"
@@ -55,7 +55,7 @@
         android:textSize="9dp"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
-        app:layout_constraintStart_toEndOf="@+id/BTN_addThuthu"
+        app:layout_constraintStart_toEndOf="@+id/BTN_addLibrarian"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

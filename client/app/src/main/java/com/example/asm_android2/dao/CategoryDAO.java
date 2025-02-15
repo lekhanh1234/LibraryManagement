@@ -44,11 +44,11 @@ public class CategoryDAO {
             if(x.getCategoryCode().equalsIgnoreCase(category.getCategoryCode())) return false;
         }
         SQLiteDatabase db=dbLibrary.getWritableDatabase();
-        int idtrave[]=new int[1];
+        int idCategory[]=new int[1];
         Thread InsertCategorySever=new Thread(new Runnable() {
             @Override
             public void run() {
-              idtrave[0]=InsertCategoryToSever(category.getCategoryCode(),category.getCategoryName(), Librarian.getId());
+              idCategory[0]=InsertCategoryToSever(category.getCategoryCode(),category.getCategoryName(), Librarian.getId());
             }
         });
         InsertCategorySever.start();
@@ -56,7 +56,7 @@ public class CategoryDAO {
             InsertCategorySever.join();
         } catch (Exception e){}
         ContentValues content=new ContentValues();
-        content.put("id",idtrave[0]);
+        content.put("id",idCategory[0]);
         content.put("categoryCode",category.getCategoryCode());
         content.put("categoryName",category.getCategoryName());
         content.put("idLibrarian", Librarian.getId());

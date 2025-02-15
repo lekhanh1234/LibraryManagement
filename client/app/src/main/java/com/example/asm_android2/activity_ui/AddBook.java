@@ -38,22 +38,22 @@ public class AddBook extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Thêm sách");
-        EditText EDT_maSach=findViewById(R.id.EDT_maSach);
-        EditText EDT_nameBook=findViewById(R.id.EDT_nameBook);
-        EditText EDT_giaThue=findViewById(R.id.EDT_giaThue);
+        EditText EDT_BookCode=findViewById(R.id.EDT_maSach);
+        EditText EDT_BookName=findViewById(R.id.EDT_nameBook);
+        EditText EDT_Price=findViewById(R.id.EDT_giaThue);
         Spinner spinner=(Spinner)findViewById(R.id.spinner);
 
         CategoryDAO categoryDao =new CategoryDAO(new LibraryDB(this,"DATABASEThuVien",null,1));
-        List<Category> listLoaiSach= categoryDao.getAllLoaiSach();
-        String listNameCatoloryBook[]=null;
-        if(listLoaiSach.size()!=0){
-            listNameCatoloryBook=new String[listLoaiSach.size()];
-            for(int i=0;i<listLoaiSach.size();i++){
-            listNameCatoloryBook[i]=listLoaiSach.get(i).getLoaisach();
+        List<Category> categoryList= categoryDao.getAllCategory();
+        String categoryNameList[]=null;
+        if(categoryList.size()!=0){
+            categoryNameList=new String[categoryList.size()];
+            for(int i=0;i<categoryList.size();i++){
+            categoryNameList[i]=categoryList.get(i).getCategoryName();
         }
         }
-        else listNameCatoloryBook=new String[]{""};
-        ArrayAdapter<String> x=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,listNameCatoloryBook) {
+        else categoryNameList = new String[]{""};
+        ArrayAdapter<String> x = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,categoryNameList) {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
@@ -91,30 +91,31 @@ public class AddBook extends AppCompatActivity {
                     Toast.makeText(AddBook.this,"KIỂM TRA KẾT NỐI INTERNET ",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String masach=EDT_maSach.getText().toString().trim();
-                String tensach=EDT_nameBook.getText().toString().trim();
-                String tenloaisach=nameCatoloryBook;
+                String bookCode=EDT_BookCode.getText().toString().trim();
+                String bookName=EDT_BookName.getText().toString().trim();
+                String category=nameCatoloryBook;
 
-                if(masach.length()==0||tensach.length()==0){
+                if(bookCode.length()==0||bookName.length()==0){
                     Toast.makeText(AddBook.this,"Dữ Liệu Trống",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                int giathue=0;
+                int price=0;
                 try {
-                    giathue=Integer.parseInt(EDT_giaThue.getText().toString().trim());
-                    if(giathue<=0) Toast.makeText(AddBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
+                    price=Integer.parseInt(EDT_Price.getText().toString().trim());
+                    if(price<=0) Toast.makeText(AddBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
                     Toast.makeText(AddBook.this,"Giá thuê sách không hợp lệ !",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(tenloaisach.length()==0){
+                if(category.length()==0){
                     Toast.makeText(AddBook.this,"Không có thông tin loại sách !",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 LibraryDB libraryDB =new LibraryDB(AddBook.this,"DATABASEThuVien",null,1);
-                boolean ketqua= new BookDAO(libraryDB).insertBook(new Book(masach,tensach,giathue,tenloaisach, Librarian.getId()));
+                int idCategory = new CategoryDAO(libraryDB).getIdByName(category);
+                new BookDAO(libraryDB).insertBook(new Book(bookCode,bookName,price,idCategory, Librarian.getId()));
                 libraryDB.getWritableDatabase().close();
                 Log.d("hamfinish duoc goi", "onClick: ");
                 finish();

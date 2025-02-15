@@ -10,27 +10,27 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.asm_android2.R;
-import com.example.asm_android2.adapter.adtListAccountThuThu;
+import com.example.asm_android2.adapter.AdapterListLibrarian;
 
 public class HomeAdmin extends AppCompatActivity {
-     private adtListAccountThuThu listAccountThuThu;
+     private AdapterListLibrarian listAccountThuThu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_from_main_admin);
-        ListView LV_listThuthu=findViewById(R.id.LV_listThuthu);
-        listAccountThuThu=new adtListAccountThuThu(this);
-        LV_listThuthu.setAdapter(listAccountThuThu);
-        Button BTN_addThuthu=findViewById(R.id.BTN_addThuthu);
-        Button BTN_changePassWordThuThu=findViewById(R.id.BTN_changePassWordThuThu);
-        BTN_addThuthu.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_main_admin);
+        ListView LV_librarianList=findViewById(R.id.LV_librarianList);
+        listAccountThuThu=new AdapterListLibrarian(this);
+        LV_librarianList.setAdapter(listAccountThuThu);
+        Button BTN_addLibrarian=findViewById(R.id.BTN_addLibrarian);
+        Button BTN_changeLibrarianPassword=findViewById(R.id.BTN_changeLibrarianPassword);
+        BTN_addLibrarian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent a=new Intent(HomeAdmin.this, AddLibrarian.class);
                 startActivityForResult(a,1);
             }
         });
-        BTN_changePassWordThuThu.setOnClickListener(new View.OnClickListener() {
+        BTN_changeLibrarianPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent a=new Intent(HomeAdmin.this, ChangeAdminPassword.class);

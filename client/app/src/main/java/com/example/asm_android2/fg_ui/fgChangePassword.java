@@ -67,12 +67,12 @@ public class fgChangePassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_doi_mat_khau, container, false);
+        View view= inflater.inflate(R.layout.fragment_change_password, container, false);
         EditText EDT_password=view.findViewById(R.id.password);
-        EditText EDT_newpassword=view.findViewById(R.id.EDT_matkhaumoi);
-        EditText EDT_newpassword2=view.findViewById(R.id.EDT_nhaplai_matkhaumoi);
-        Button BT_confirm=view.findViewById(R.id.BT_xacnhan);
-        BT_confirm.setOnClickListener(new View.OnClickListener() {
+        EditText EDT_newPassword=view.findViewById(R.id.EDT_newPassword);
+        EditText EDT_reNewPassword=view.findViewById(R.id.EDT_reNewPassword);
+        Button BTN_confirm=view.findViewById(R.id.BTN_confirm);
+        BTN_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(NetworkUtils.isNetworkAvailable(getContext())==false){
@@ -80,24 +80,23 @@ public class fgChangePassword extends Fragment {
                     return;
                 }
                 String password=EDT_password.getText().toString().trim();
-                String newpassword=EDT_newpassword.getText().toString().trim();
-                String newpassword2=EDT_newpassword2.getText().toString().trim();
-                LibraryDB dbThuVien=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
-                LibrarianDAO librarianDao =new LibrarianDAO(dbThuVien);
+                String newpassword=EDT_newPassword.getText().toString().trim();
+                String reNewPassword=EDT_reNewPassword.getText().toString().trim();
+                LibraryDB dbLibrary=new LibraryDB(getContext(),"DATABASEThuVien",null,1);
+                LibrarianDAO librarianDao =new LibrarianDAO(dbLibrary);
 
                 if(password.length()==0|| librarianDao.checkPassword(password)==false){
                     Toast.makeText(getContext(),"MẬT KHẨU KHÔNG HỢP LỆ",Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(newpassword.equals(newpassword2)==false){
+                if(newpassword.equals(reNewPassword)==false){
                     Toast.makeText(getContext(),"MẬT KHẨU MỚI KHÔNG KHỚP",Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(newpassword.length()<7||newpassword2.length()<7){
+                if(newpassword.length()<7||reNewPassword.length()<7){
                     Toast.makeText(getContext(),"MẬT KHẨU MỚI PHẢI ÍT NHẤT 8 KÍ TỰ",Toast.LENGTH_LONG).show();
                     return;
                 }
-                // THAY DOI MAT KHAU TRONG DATABASE VA TREN SEVER;
                 librarianDao.changePassWord(newpassword,password);
                 Toast.makeText(getContext(),"MAT KHAU DA DUOC THAY DOI",Toast.LENGTH_SHORT).show();
                 //

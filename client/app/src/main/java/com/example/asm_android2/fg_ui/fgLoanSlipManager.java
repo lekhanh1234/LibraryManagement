@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.example.asm_android2.R;
 import com.example.asm_android2.activity_ui.AddLoanSlip;
-import com.example.asm_android2.adapter.adapterQuanliphieumuon;
+import com.example.asm_android2.adapter.AdapterLoanSlipManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +26,7 @@ public class fgLoanSlipManager extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    adapterQuanliphieumuon adapterQuanliphieumuon;
+    AdapterLoanSlipManager AdapterLoanSlipManager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,12 +67,12 @@ public class fgLoanSlipManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_fg_quanliphieumuon, container, false);
-        ListView LVquanliphieumuon=view.findViewById(R.id.LVquanliphieumuon);
-        adapterQuanliphieumuon=new adapterQuanliphieumuon(getContext());
-        LVquanliphieumuon.setAdapter(adapterQuanliphieumuon);
-        Button BTN_addPhieuMuon=view.findViewById(R.id.BTN_addPhieu);
-        BTN_addPhieuMuon.setOnClickListener(new View.OnClickListener() {
+        View view= inflater.inflate(R.layout.fragment_fg_loanslip_manager, container, false);
+        ListView LV_loanSlip_Manager=view.findViewById(R.id.LV_loanSlip_Manager);
+        AdapterLoanSlipManager =new AdapterLoanSlipManager(getContext());
+        LV_loanSlip_Manager.setAdapter(AdapterLoanSlipManager);
+        Button BTN_addLoanSlip=view.findViewById(R.id.BTN_addLoanSlip);
+        BTN_addLoanSlip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent a=new Intent(getContext(), AddLoanSlip.class);
@@ -84,7 +84,7 @@ public class fgLoanSlipManager extends Fragment {
 
     @Override
     public void onResume() {
-        adapterQuanliphieumuon.notifyDataSetChanged();
+        AdapterLoanSlipManager.notifyDataSetChanged();
         super.onResume();
     }
 }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.asm_android2.R;
-import com.example.asm_android2.adapter.adapterTopbook;
+import com.example.asm_android2.adapter.AdapterTopbook;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,10 +63,10 @@ public class fgTopBook extends Fragment {
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_top10sachchomuon, container, false);
-        ListView listView=view.findViewById(R.id.LVtopsachchomuon);
-        adapterTopbook adapterTopbook=new adapterTopbook(getContext());
-        listView.setAdapter(adapterTopbook);
+        View view= inflater.inflate(R.layout.fragment_top_book, container, false);
+        ListView LV_topBook=view.findViewById(R.id.LV_topBook);
+        AdapterTopbook adapterTopbook=new AdapterTopbook(getContext());
+        LV_topBook.setAdapter(adapterTopbook);
         return view;
     }
 }

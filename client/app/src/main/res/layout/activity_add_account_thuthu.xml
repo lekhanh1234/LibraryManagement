@@ -7,7 +7,7 @@
     tools:context=".activity_ui.AddLoanSlip">
 
     <EditText
-        android:id="@+id/EDT_nameThuThu"
+        android:id="@+id/EDT_LibrarianName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="104dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/EDT_Username_thuthu"
+        android:id="@+id/EDT_LibrarianUserName"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="180dp"
@@ -71,7 +71,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/BTN_confirmAddThuThu"
+        android:id="@+id/BTN_ConfirmAddLibrarian"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"

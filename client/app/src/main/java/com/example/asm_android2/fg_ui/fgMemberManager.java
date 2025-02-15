@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.asm_android2.R;
-import com.example.asm_android2.adapter.adapterQuanlithanhvien;
+import com.example.asm_android2.adapter.AdapterMemberManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,10 +63,10 @@ public class fgMemberManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_fg_quanlithanhvien, container, false);
-        ListView listView=view.findViewById(R.id.LVquanlithanhvien);
-        adapterQuanlithanhvien adapterQuanlithanhvien=new adapterQuanlithanhvien(getContext());
-        listView.setAdapter(adapterQuanlithanhvien);
+        View view= inflater.inflate(R.layout.fragment_fg_member_manager, container, false);
+        ListView LV_memberManager=view.findViewById(R.id.LV_memberManager);
+        AdapterMemberManager AdapterMemberManager =new AdapterMemberManager(getContext());
+        LV_memberManager.setAdapter(AdapterMemberManager);
         return view;
     }
 }

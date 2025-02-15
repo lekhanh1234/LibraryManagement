@@ -3,7 +3,6 @@ package com.example.asm_android2.activity_ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,8 +15,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.asm_android2.R;
+import com.example.asm_android2.dao.MemberDAO;
 import com.example.asm_android2.modal.Librarian;
 import com.example.asm_android2.ServerService.NetworkUtils;
 import com.example.asm_android2.dao.LoanSlipDAO;
@@ -32,15 +31,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddLoanSlip extends AppCompatActivity {
-    private EditText EDT_maPhieu;
-    private EditText EDT_nameMember;
-    private EditText EDT_maThanhVien;
+    private EditText EDT_ReceiptNumber;
+    private EditText EDT_MemberName;
+    private EditText EDT_Dinhdanh;
     private Spinner spinner_listBook;
-    private EditText EDT_thoiHan;
+    private EditText EDT_Deadline;
     private Button BTN_selectTime;
-    private Button BTN_themPhieuMoi;
-    private String tenSachandMaSach="";
+    private Button BTN_AddLoanSlip;
+    private String bookNameandbookCode="";
     private String[] listBook=null;
+    private int idBookSelected = -1;
     private int YearCurrent;
     private int MonthCurrent;
     private int DayCurrent;
@@ -50,14 +50,14 @@ public class AddLoanSlip extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_phieu);
-        EDT_maPhieu=findViewById(R.id.EDT_maPhieu);
-        EDT_nameMember=findViewById(R.id.EDT_tenThanhVien);
-        EDT_maThanhVien=findViewById(R.id.EDT_maThanhVien);
+        setContentView(R.layout.activity_add_loanslip);
+        EDT_ReceiptNumber=findViewById(R.id.EDT_ReceiptNumber);
+        EDT_MemberName=findViewById(R.id.EDT_MemberName);
+        EDT_Dinhdanh=findViewById(R.id.EDT_Dinhdanh);
         spinner_listBook=findViewById(R.id.spinner_listBook);
-        EDT_thoiHan=findViewById(R.id.EDT_thoiHan);
+        EDT_Deadline=findViewById(R.id.EDT_Deadline);
         BTN_selectTime=findViewById(R.id.BTN_selectTime);
-        BTN_themPhieuMoi=findViewById(R.id.BTN_confirmAddPhieuMuon);
+        BTN_AddLoanSlip=findViewById(R.id.BTN_AddLoanSlip);
         getSupportActionBar().setTitle("Thêm phiếu mới");
 
         Calendar calendar = Calendar.getInstance();
@@ -70,7 +70,7 @@ public class AddLoanSlip extends AppCompatActivity {
         if(list!=null){
             listBook=new String[list.size()];
             for(int i=0;i<list.size();i++){
-                listBook[i]=list.get(i).getMasach()+" : "+list.get(i).getTenSach();
+                listBook[i]=list.get(i).getBookCode()+" : "+list.get(i).getBookName();
             }
         }
         else listBook=new String[]{""};
@@ -80,15 +80,15 @@ public class AddLoanSlip extends AppCompatActivity {
 
         ArrayAdapter<String> adapter=new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,listBook);
         spinner_listBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tenSachandMaSach=((TextView)view).getText().toString();
+                bookNameandbookCode=((TextView)view).getText().toString();
+                if(list != null){
+                    idBookSelected = list.get(position).getId();
+                }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         spinner_listBook.setAdapter(adapter);
@@ -103,7 +103,7 @@ public class AddLoanSlip extends AppCompatActivity {
                                 YearSelect=year;
                                 MonthSelect=month+1;
                                 DaySelect=dayOfMonth;
-                                EDT_thoiHan.setText(""+YearSelect+"-"+MonthSelect+"-"+DaySelect);
+                                EDT_Deadline.setText(""+YearSelect+"-"+MonthSelect+"-"+DaySelect);
                             }
                         }, YearCurrent, MonthCurrent, DayCurrent);
 
@@ -114,7 +114,7 @@ public class AddLoanSlip extends AppCompatActivity {
 
 
 
-        BTN_themPhieuMoi.setOnClickListener(new View.OnClickListener() {
+        BTN_AddLoanSlip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(NetworkUtils.isNetworkAvailable(AddLoanSlip.this)==false){
@@ -122,13 +122,13 @@ public class AddLoanSlip extends AppCompatActivity {
                     return;
                 }
 
-                String maPhieu=EDT_maPhieu.getText().toString().trim();
-                if(maPhieu.length()==0) {
+                String receiptNumber=EDT_ReceiptNumber.getText().toString().trim();
+                if(receiptNumber.length()==0) {
                     Toast.makeText(AddLoanSlip.this,"Ma Phieu Trong",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                int idThuthu= Librarian.getId();
-                String nameMember=EDT_nameMember.getText().toString().trim();
+                int idLibrarian= Librarian.getId();
+                String nameMember=EDT_MemberName.getText().toString().trim();
                 if(nameMember.length()==0){
                     Toast.makeText(AddLoanSlip.this,"Ten Thanh Vien Trong",Toast.LENGTH_SHORT).show();
                     return;
@@ -141,26 +141,26 @@ public class AddLoanSlip extends AppCompatActivity {
                         return;
                     }
                 }
-                String maThanhVien=EDT_maThanhVien.getText().toString().trim();
+                String maThanhVien=EDT_Dinhdanh.getText().toString().trim();
                 if(maThanhVien.length()==0){
                     Toast.makeText(AddLoanSlip.this, "Ma thanh vien trong", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(tenSachandMaSach.length()==0) {
+                if(bookNameandbookCode.length()==0) {
                     Toast.makeText(AddLoanSlip.this, "Khong co sach duoc chon !", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String arrayMaSachandTenSach[]=tenSachandMaSach.split(":");
-                String MaSach=arrayMaSachandTenSach[0].trim();
-                String TenSach=arrayMaSachandTenSach[1].trim();
+                String arraybookCodeandbookName[]=bookNameandbookCode.split(":");
+                String bookCode=arraybookCodeandbookName[0].trim();
+                String bookName=arraybookCodeandbookName[1].trim();
 
-                int trangthai=0;
+                int states=0;
                 String Currenttime=""+YearCurrent+"-"+MonthCurrent+"-"+DayCurrent;
                     if(YearSelect==0&&MonthSelect==0&&DaySelect==0) {
                         Toast.makeText(AddLoanSlip.this, "Chon thoi han", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    String selectTime=""+YearSelect+"-"+MonthSelect+"-"+DaySelect;
+                String selectTime=""+YearSelect+"-"+MonthSelect+"-"+DaySelect;
                if(YearSelect<YearCurrent){
                    Toast.makeText(AddLoanSlip.this, "Thoi han khong hop le", Toast.LENGTH_SHORT).show();
                    return;
@@ -184,16 +184,17 @@ public class AddLoanSlip extends AppCompatActivity {
 
                 LibraryDB newdb=new LibraryDB(AddLoanSlip.this,"DATABASEThuVien",null,1);
                 LoanSlipDAO loanSlipDao =new LoanSlipDAO(newdb);
-                List<LoanSlip> list= loanSlipDao.getAllPhieuMuon();
+                List<LoanSlip> list= loanSlipDao.getAllLoanSlip();
                 if(list!=null)
                     for(LoanSlip x:list){
-                        if(x.getMaphieu().equalsIgnoreCase(maPhieu)){
+                        if(x.getReceiptNumber().equalsIgnoreCase(receiptNumber)){
                             Toast.makeText(AddLoanSlip.this,"Mã phiếu đã tồn tại",Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
-                LoanSlip loanSlip =new LoanSlip(maPhieu,idThuthu,TenSach,MaSach,nameMember,maThanhVien,trangthai,Currenttime,selectTime);
-                loanSlipDao.insertPhieumuon(loanSlip);
+                int idMember = new MemberDAO(newdb).insertMember(maThanhVien,nameMember);
+                LoanSlip loanSlip =new LoanSlip(-1,receiptNumber,idLibrarian,idBookSelected,idMember,states,Currenttime,selectTime);
+                loanSlipDao.insertLoanSlip(loanSlip);
                 newdb.getWritableDatabase().close();
                 newdb.getReadableDatabase().close();
                 finish();

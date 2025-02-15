@@ -7,7 +7,7 @@
     tools:context=".activity_ui.AddBook">
 
     <EditText
-        android:id="@+id/EDT_maSach"
+        android:id="@+id/EDT_bookCode"
         android:layout_width="309dp"
         android:layout_height="47dp"
         android:layout_marginStart="52dp"

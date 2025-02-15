@@ -22,7 +22,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         EditText edt_user=findViewById(R.id.edt_user);
         EditText edt_password=findViewById(R.id.edt_password);
-        EditText edt_tenthuthu=findViewById(R.id.EDT_namethuthu);
+        EditText edt_LibrarianName=findViewById(R.id.EDT_LibrarianName);
         EditText edt_dinhdanh=findViewById(R.id.EDT_IDdinhdanh);
         Button btn_signUp=findViewById(R.id.btn_signUp);
         ActionBar actionBar=getSupportActionBar();
@@ -37,7 +37,7 @@ public class SignUp extends AppCompatActivity {
 
                 String nameUser=edt_user.getText().toString();
                 String passWord=edt_password.getText().toString();
-                String tenthuthu=edt_tenthuthu.getText().toString();
+                String librarianName=edt_LibrarianName.getText().toString();
                 String dinhdanh=edt_dinhdanh.getText().toString();
                 if(nameUser.length()==0||passWord.length()==0)
                 {
