@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="sever_messenger">
+        
+    <wb-module deploy-name="LibraryServer">
+                
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <property name="context-root" value="sever_messenger"/>
-        <property name="java-output-path" value="/sever_messenger/build/classes"/>
+                
+        <property name="java-output-path" value="/LibraryServer/build/classes"/>
+        <property name="context-root" value="LibraryServer"/>
+            
     </wb-module>
+    
 </project-modules>
